@@ -1,0 +1,138 @@
+{
+  "paths": {
+    "/v1/proxies": {
+      "get": {
+        "operationId": "get_proxies",
+        "summary": "Retrieves a list of proxies with filtering, sorting, and pagination options.",
+        "description": "This method provides functionality for filtering, sorting, and paginating proxies. It can filter results by workspace ID, folder ID, proxy ID, name, and sorting criteria. If parameters are not specified, the response returns the default page of proxies in standard order.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "start", "description": "Zero based start index for pagination." },
+          { "name": "total", "description": "Maximum number of results to return, page size." },
+          { "name": "folderId", "description": "Optional folder ID for filtering proxies. Pass null to ignore this filter." },
+          { "name": "id", "description": "Optional proxy ID to filter. Pass null to ignore this filter." },
+          { "name": "name", "description": "Optional name for filtering proxies. Pass empty string to ignore this filter." },
+          { "name": "sorting", "description": "Optional sorting string to determine the order of the returned proxies. Pass an empty string for default sorting. Sorting string format: \"propertyName ASC\" for ascending order or \"propertyName DESC\" for descending order. For example, \"name ASC\" or \"createdAt DESC\"." },
+          { "name": "proxyUri", "description": "Optional proxy Uri address to filter proxies by. Pass empty string to ignore this filter. Proxy uri is normalized before filtering." }
+        ]
+      }
+    },
+    "/v1/proxies/create": {
+      "post": {
+        "operationId": "create_proxy",
+        "summary": "Adds a new proxy entry using the provided configuration parameters.",
+        "description": "This method is used to add a new proxy entry using the provided configuration parameters. It returns the generated unique identifier.",
+        "parameters": [
+          { "name": "name", "description": "Name of the added proxy. This value cannot be null or empty." },
+          { "name": "proxyUri", "description": "URL-address of the proxy. Must be a valid URL (e.g., http://login:pass@host:port)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "folderId", "description": "Identifier of the folder to associate with the proxy (optional). Defaults to null. When null, the proxy will be associated with default local folder." },
+          { "name": "ipChangeUrl", "description": "URL to trigger IP change for the proxy (optional). Defaults to empty." }
+        ]
+      }
+    },
+    "/v1/proxies/create_bulk": {
+      "post": {
+        "operationId": "bulk_create_proxy",
+        "summary": "Creates multiple proxies in a single operation and returns their unique identifiers.",
+        "description": "This method processes an array of proxy data and creates all specified proxies. Errors during creation of individual proxies are ignored.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "folderId", "description": "Optional folder ID to associate with all created proxies." }
+        ]
+      }
+    },
+    "/v1/proxies/{proxyId}": {
+      "put": {
+        "operationId": "update_proxy",
+        "summary": "Modifies the configuration of an existing proxy server.",
+        "description": "This method modifies configuration of an existing proxy server based on specified parameters. Any parameters set to null will leave the corresponding property of the proxy unchanged.",
+        "parameters": [
+          { "name": "proxyId", "description": "Unique identifier of the proxy (required)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "folderId", "description": "New folder for the proxy. Set to null to leave the current value unchanged." },
+          { "name": "name", "description": "New name for the proxy. Set to null to retain the current name." },
+          { "name": "proxyUri", "description": "New URL for the proxy. Set to null to retain the current URL." },
+          { "name": "ipChangeUrl", "description": "New URL for IP rotation. Set to null to retain the current URL." }
+        ]
+      },
+      "delete": {
+        "operationId": "delete_proxy",
+        "summary": "Deletes a proxy from the list by its identifier.",
+        "description": "This method deletes a proxy from the list by the specified ID. The proxyId value must match an existing proxy in the specified workspace.",
+        "parameters": [
+          { "name": "proxyId", "description": "Unique identifier of the proxy to delete (required)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/proxies/delete_bulk": {
+      "delete": {
+        "operationId": "bulk_delete_proxy",
+        "summary": "Deletes multiple proxies in a single operation.",
+        "description": "This method sends a bulk delete request to the API to remove the specified proxies. Ensure that the provided proxy IDs are valid and exist in the specified workspace.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/proxies/{proxyId}/change_ip": {
+      "post": {
+        "operationId": "change_mobile_proxy_ip",
+        "summary": "Changes the IP address of a mobile proxy by invoking the configured IP change URL.",
+        "description": "This endpoint triggers an IP change for the specified mobile proxy. The proxy must have a valid IP change URL configured.",
+        "parameters": [
+          { "name": "proxyId", "description": "The unique identifier of the proxy for which to change the IP address." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/proxy_folders": {
+      "get": {
+        "operationId": "get_proxy_folders",
+        "summary": "Retrieves a list of proxy folders with filtering, sorting, and pagination options.",
+        "description": "This method is used to get the list of proxy folders. It supports filtering, sorting, and pagination in returned results. Optional query parameters can be used to refine the result set. If parameters are not specified, the method returns the first page of proxy folders in the default sorting order.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "start", "description": "Zero based start index for pagination." },
+          { "name": "total", "description": "Maximum number of results to return, page size." },
+          { "name": "id", "description": "Filter by certain folder identifier (optional)." },
+          { "name": "name", "description": "Filter by folder name (optional)." },
+          { "name": "sorting", "description": "Result sorting condition (optional). Sorting string format: \"propertyName ASC\" for ascending order or \"propertyName DESC\" for descending order. For example, \"name ASC\" or \"createdAt DESC\"." },
+          { "name": "location", "description": "Proxy type filter (Local or Cloud)." }
+        ]
+      },
+      "post": {
+        "operationId": "create_proxy_folder",
+        "summary": "Creates a new proxy folder.",
+        "description": "This method creates a new proxy folder. The caller must ensure that the specified workspace ID and location are valid. Proxy folder is container for proxies and is used for better organization. Each folder has a unique identifier that is returned upon creation and can be used for subsequent operations on the folder, such as updating or deleting.",
+        "parameters": [
+          { "name": "name", "description": "The name of the new folder (required)." },
+          { "name": "location", "description": "Storage location (\"Local\" or \"Cloud\"). Defaults to \"Local\"." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/proxy_folders/{proxyFolderId}": {
+      "put": {
+        "operationId": "update_proxy_folder",
+        "summary": "Updates the name of the specified proxy folder.",
+        "description": "This method updates the name of the specified proxy folder. This is the only editable property.",
+        "parameters": [
+          { "name": "proxyFolderId", "description": "The folder identifier (required)." },
+          { "name": "name", "description": "The new folder name." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      },
+      "delete": {
+        "operationId": "delete_proxy_folder",
+        "summary": "Deletes the specified proxy folder.",
+        "description": "This method deletes a proxy folder. The parameter proxyFolderId must match the existing folder within the specified workspace.",
+        "parameters": [
+          { "name": "proxyFolderId", "description": "The identifier of the proxy folder to be deleted (required)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    }
+  }
+}

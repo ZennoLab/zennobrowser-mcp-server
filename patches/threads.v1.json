@@ -1,0 +1,82 @@
+{
+  "paths": {
+    "/v1/threads": {
+      "get": {
+        "operationId": "get_threads",
+        "summary": "Retrieves execution threads for the specified workspace with optional filters and sorting.",
+        "description": "This method retrieves the list of execution threads for the specified workspace. Threads can be filtered by token or type, limited by the number of results, and sorted using the provided parameters.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "start", "description": "Zero based start index for pagination." },
+          { "name": "total", "description": "Maximum number of results to return, page size." },
+          { "name": "thread_token", "description": "Optional thread token to filter by. Pass null to ignore this filter." },
+          { "name": "type", "description": "Optional thread type filter. Pass null to return all types." },
+          { "name": "sorting", "description": "Optional sorting string to determine the order of the returned threads." }
+        ]
+      }
+    },
+    "/v1/threads/create": {
+      "post": {
+        "operationId": "create_thread",
+        "summary": "Runs a new execution thread.",
+        "description": "This method runs a new execution thread in the specified workspace. Execution threads are used to start, work with a browser instance. They can be manually continued with the continue_use_thread method or stopped with the stop_thread method.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/threads/create_bulk": {
+      "post": {
+        "operationId": "bulk_create_thread",
+        "summary": "Runs multiple execution threads.",
+        "description": "This method can be used to start execution threads in bulk for the specified workspace.",
+        "parameters": [
+          { "name": "count", "description": "Number of threads to create (required)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/threads/use/{threadToken}": {
+      "put": {
+        "operationId": "continue_use_thread",
+        "summary": "Continues work of the execution thread associated with the thread token.",
+        "description": "This method is used to continue work of the execution thread associated with the thread token.",
+        "parameters": [
+          { "name": "threadToken", "description": "The unique token of the thread to continue (required)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/threads/use_bulk": {
+      "put": {
+        "operationId": "bulk_continue_use_thread",
+        "summary": "Continues work of multiple execution threads.",
+        "description": "This method is used to update the specified execution threads, allowing them to continue working. The threadTokens parameter should contain the array of valid tokens with existing workspace IDs.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/threads/{threadToken}": {
+      "delete": {
+        "operationId": "stop_thread",
+        "summary": "Stopping Execution Thread.",
+        "description": "This method can be used to stop an existing execution thread. Stopping a thread will also stop the associated browser instance, if it exists.",
+        "parameters": [
+          { "name": "threadToken", "description": "The unique token of the thread to stop (required)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/threads/delete_bulk": {
+      "delete": {
+        "operationId": "bulk_stop_thread",
+        "summary": "Stopping Multiple Threads.",
+        "description": "This method stops multiple execution threads.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    }
+  }
+}

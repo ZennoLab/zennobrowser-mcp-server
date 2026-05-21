@@ -1,0 +1,38 @@
+{
+  "paths": {
+    "/v1/product/version": {
+      "get": {
+        "operationId": "get_product_version",
+        "summary": "Retrieves the product version.",
+        "description": "This method returns the current version of the product."
+      }
+    },
+    "/v1/product/browser_version": {
+      "get": {
+        "operationId": "get_browser_version",
+        "summary": "Retrieves the browser version.",
+        "description": "This method returns the current version of the browser engine."
+      }
+    },
+    "/v1/product/limits": {
+      "get": {
+        "operationId": "get_limits",
+        "summary": "Retrieves the workspace limits.",
+        "description": "This method returns the current limits for the specified workspace.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/product/tariff": {
+      "get": {
+        "operationId": "get_tariff",
+        "summary": "Retrieves the workspace tariff.",
+        "description": "This method returns the current tariff for the specified workspace.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    }
+  }
+}

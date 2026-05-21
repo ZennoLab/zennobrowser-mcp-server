@@ -1,0 +1,81 @@
+{
+  "paths": {
+    "/v1/browser_instances": {
+      "get": {
+        "operationId": "get_browser_instances",
+        "summary": "Retrieves the list of browser instances available for the current user with filtering and pagination options.",
+        "description": "This method returns the list of browser processes available for the current user with detailed information. Results can be filtered by profile ID or process ID, optionally sorted, and limited by the number of returned entries. Important: these actions are applied only to browser instances launched via the API.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "start", "description": "Starting index for pagination." },
+          { "name": "total", "description": "Maximum number of results to return." },
+          { "name": "profileId", "description": "Filter by profile ID (optional)." },
+          { "name": "processId", "description": "Filter by browser process ID (optional)." },
+          { "name": "sorting", "description": "Sorting parameters: ConnectionString, ProcessId, ProfileId (optional)." }
+        ]
+      }
+    },
+    "/v1/browser_instances/create": {
+      "post": {
+        "operationId": "start_browser_instance",
+        "summary": "Creates a new browser instance for the specified profile.",
+        "description": "This method creates the new browser instance using the specified profile with optional workspace and desktop settings.",
+        "parameters": [
+          { "name": "profileId", "description": "Unique identifier of the profile to associate with the browser instance (required)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "desktopName", "description": "The name of the desktop environment (optional). Defaults to empty." },
+          { "name": "threadToken", "description": "Thread token for the browser instance. To create a new execution thread, pass an empty string (default)." },
+          { "name": "environmentTags", "description": "Tags to configure the environment for the browser instance." },
+          { "name": "commandLineArguments", "description": "Custom command line arguments to pass to the browser on startup" }
+        ]
+      }
+    },
+    "/v1/browser_instances/create_bulk": {
+      "post": {
+        "operationId": "bulk_start_browser_instance",
+        "summary": "Creates multiple browser instances for the specified profiles.",
+        "description": "This method is used to create browser instances in bulk for the specified profiles. Ensure that the provided profile IDs are valid and that the specified workspace ID exists.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
+          { "name": "desktopName", "description": "The name of the desktop environment (optional). Defaults to empty." },
+          { "name": "keepAlive", "description": "Indicates if the browser instances should remain active after creation. true to keep active; otherwise false. Defaults to true." },
+          { "name": "environmentTags", "description": "Tags to configure the environment for the browser instance." },
+          { "name": "commandLineArguments", "description": "Custom additional command line arguments to pass to the browser on startup" }
+        ]
+      }
+    },
+    "/v1/browser_instances/{profileId}": {
+      "delete": {
+        "operationId": "stop_browser_instance",
+        "summary": "Stopping Browser Instance.",
+        "description": "This method stops the existing browser instance associated with the specified profile. This operation permanently closes the browser instance and releases all associated resources.",
+        "parameters": [
+          { "name": "profileId", "description": "The target browser instance ID (profileId)." },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/browser_instances/delete_bulk": {
+      "delete": {
+        "operationId": "bulk_stop_browser_instance",
+        "summary": "Stopping browser instances (bulk).",
+        "description": "This method stops multiple existing browser instances associated with the specified profiles. This operation permanently closes all specified browser instances and releases their resources.",
+        "parameters": [
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    },
+    "/v1/browser_instances/{profileId}/set_visibility": {
+      "post": {
+        "operationId": "set_browser_instance_visibility",
+        "summary": "Set browser instance visibility",
+        "description": "Set browser instance window visibility (show or hide). This method works only for browser instances launched via the API with reveal or conceal options.",
+        "parameters": [
+          { "name": "profileId", "description": "The unique identifier of the profile to associate with the browser instance." },
+          { "name": "isVisible", "description": "Visibility value, true - to show, false - to hide" },
+          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+        ]
+      }
+    }
+  }
+}
