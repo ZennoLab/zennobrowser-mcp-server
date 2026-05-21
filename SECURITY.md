@@ -1,11 +1,5 @@
 # Security Policy
 
-## Supported Versions
-
-| Version | Supported |
-|---------|-----------|
-| 1.x     | ✓         |
-
 ## Reporting a Vulnerability
 
 **Do not open a public GitHub issue for security vulnerabilities.**
