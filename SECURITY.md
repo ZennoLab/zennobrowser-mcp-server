@@ -10,13 +10,12 @@
 
 **Do not open a public GitHub issue for security vulnerabilities.**
 
-Report security issues by email to [security@zennolab.com](mailto:security@zennolab.com). Include:
+Report security issues by email. 
+Include:
 
 - A description of the vulnerability and its potential impact
 - Steps to reproduce or a proof-of-concept
 - Affected versions
-
-You will receive an acknowledgement within 2 business days. We aim to release a fix within 14 days for critical issues.
 
 ## Scope
 

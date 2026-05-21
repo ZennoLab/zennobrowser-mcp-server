@@ -114,7 +114,7 @@ npm run build
 
 When ZennoBrowser releases an API update that affects the OpenAPI specs served at `/openapi/*.v1.json`, the MCP server may need a patch or update.
 
-**Owner:** ZennoLab backend team (`@zennolab/mcp-maintainers`)
+**Owner:** ZennoBrowser backend team
 
 **Trigger:** A ZennoBrowser release that changes any Public API endpoint, adds new operations, or deprecates existing ones.
 
