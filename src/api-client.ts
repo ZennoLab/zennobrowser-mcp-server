@@ -54,11 +54,13 @@ export class ApiClient {
       }
     }
     const queryString = queryParams.toString();
+
     return `${this.baseUrl}${urlPath}${queryString ? '?' + queryString : ''}`;
   }
 
   private buildBody(input: Record<string, JsonValue>): string | undefined {
     const value = input[BODY_KEY];
+  
     return value != null ? JSON.stringify(value) : undefined;
   }
 }

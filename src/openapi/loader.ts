@@ -29,7 +29,9 @@ export async function loadSpecs(urls: string[]): Promise<OpenAPISpec[]> {
       let patch: Partial<OpenAPISpec> = {};
       try {
         patch = JSON.parse(fs.readFileSync(patchPath, 'utf-8'));
-      } catch { /* no patch file — that's fine */ }
+      } catch { 
+        /* no patch file — that's fine */ 
+      }
 
       const patched = applyPatch(spec, patch);
       const schemas = patched.components?.schemas ?? {};

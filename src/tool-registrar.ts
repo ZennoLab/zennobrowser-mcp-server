@@ -46,14 +46,21 @@ export function registerToolsFromSpecs(
                 const text = await response.text();
                 return errorResponse(new Error(`HTTP ${response.status} ${response.statusText}: ${text}`));
               }
+
               if (!toolContext.hasOutputSchema) {
                 return emptyResponse;
               }
+
               const text = await response.text();
               let data: unknown;
-              try { data = JSON.parse(text); } catch { data = text; }
+              try {
+                data = JSON.parse(text); 
+              } catch { 
+                data = text;
+              }
               const payload = data !== null && typeof data === 'object' && !Array.isArray(data)
                 ? data : { result: data };
+                
               return structuredResponse(payload);
             } catch (error) {
               return errorResponse(error);

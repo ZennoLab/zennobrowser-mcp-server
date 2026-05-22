@@ -114,6 +114,7 @@ export class ToolContext {
     if (schema.type === 'object' || schema.properties) {
       return zodType;
     }
+  
     return z.object({ result: zodType });
   }
 

@@ -17,6 +17,7 @@ function deepMerge(base: unknown, patch: unknown): unknown {
   for (const [key, value] of Object.entries(patch as Record<string, unknown>)) {
     result[key] = deepMerge(result[key], value);
   }
+  
   return result;
 }
 
