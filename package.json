@@ -1,5 +1,5 @@
 {
-  "name": "zennolab-mcp-server",
+  "name": "zennobrowser-mcp-server",
   "version": "1.0.0",
   "description": "MCP server for ZennoBrowser Public API",
   "license": "MIT",
@@ -12,7 +12,7 @@
   ],
   "main": "dist/index.js",
   "bin": {
-    "zennolab-mcp-server": "dist/index.js"
+    "zennobrowser-mcp-server": "dist/index.js"
   },
   "files": [
     "dist",

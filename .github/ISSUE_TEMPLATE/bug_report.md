@@ -16,7 +16,7 @@ What you expected to happen.
 **Environment**
 - OS:
 - Node.js version (`node --version`):
-- `zennolab-mcp-server` version:
+- `zennobrowser-mcp-server` version:
 - ZennoBrowser version:
 - MCP client (Claude Desktop / Cursor / VS Code):
 

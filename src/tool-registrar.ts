@@ -52,11 +52,18 @@ export function registerToolsFromSpecs(
               }
 
               const text = await response.text();
+              const contentType = (response.headers.get('content-type') ?? '').split(';')[0].trim();
               let data: unknown;
-              try {
-                data = JSON.parse(text); 
-              } catch { 
-                data = text;
+              switch (contentType) {
+                case 'application/json':
+                case 'text/json':
+                  data = JSON.parse(text);
+                  break;
+                case 'text/plain':
+                  data = text;
+                  break;
+                default:
+                  try { data = JSON.parse(text); } catch { data = text; }
               }
               const payload = data !== null && typeof data === 'object' && !Array.isArray(data)
                 ? data : { result: data };

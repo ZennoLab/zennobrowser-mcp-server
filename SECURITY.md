@@ -5,17 +5,16 @@
 **Do not open a public GitHub issue for security vulnerabilities.**
 
 Report security issues by email. 
-Include:
+Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
 
-- A description of the vulnerability and its potential impact
-- Steps to reproduce or a proof-of-concept
-- Affected versions
+  * Type of issue (e.g. buffer overflow, SQL injection, cross-site scripting, etc.)
+  * Full paths of source file(s) related to the manifestation of the issue
+  * The location of the affected source code (tag/branch/commit or direct URL)
+  * Any special configuration required to reproduce the issue
+  * Step-by-step instructions to reproduce the issue
+  * Proof-of-concept or exploit code (if possible)
+  * Impact of the issue, including how an attacker might exploit the issue
 
 ## Scope
 
-This policy covers the `zennolab-mcp-server` npm package. Vulnerabilities in ZennoBrowser itself should be reported directly to ZennoLab via [zennolab.com](https://zennolab.com).
-
-## Security Notes
-
-- The server reads `ZB_API_TOKEN` from the environment — never hardcode tokens in config files committed to version control.
-- The server only communicates with `ZB_API_BASE_URL` (default `http://localhost:8160`) and the MCP client over stdio. It makes no other outbound network requests.
+This policy covers the `zennobrowser-mcp-server` npm package. Vulnerabilities in ZennoBrowser itself should be reported directly to ZennoLab via [zennolab.com](https://zennolab.com).

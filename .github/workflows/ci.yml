@@ -70,6 +70,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
-        run: gh release create ${{ github.ref_name }} zennolab-mcp-server-*.tgz --generate-notes
+        run: gh release create ${{ github.ref_name }} zennobrowser-mcp-server-*.tgz --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

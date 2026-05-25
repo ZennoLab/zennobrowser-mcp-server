@@ -11,7 +11,7 @@ npm run start      # Run the MCP server
 npx tsc --noEmit   # Type-check only (no test framework or linter configured)
 ```
 
-Requires **Node ≥ 20**. The package also exposes a `bin` entry (`zennolab-mcp-server`) usable via `npx` after publishing.
+Requires **Node ≥ 20**. The package also exposes a `bin` entry (`zennobrowser-mcp-server`) usable via `npx` after publishing.
 
 ## MCP Client Configuration
 

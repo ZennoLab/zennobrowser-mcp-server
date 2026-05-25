@@ -7,8 +7,8 @@ Use GitHub Issues with the provided templates.
 ## Development setup
 
 ```bash
-git clone https://github.com/zennolab/zennolab-mcp-server.git
-cd zennolab-mcp-server
+git clone https://github.com/ZennoLab/zennobrowser-mcp-server.git
+cd zennobrowser-mcp-server
 npm install
 npm run build
 ```
@@ -34,13 +34,13 @@ When you need to test your changes end-to-end inside Claude Desktop, Cursor, or 
 ```bash
 npm run build
 npm pack
-# produces zennolab-mcp-server-<version>.tgz in the current directory
+# produces zennobrowser-mcp-server-<version>.tgz in the current directory
 ```
 
 **2. Install the tarball globally:**
 
 ```bash
-npm install -g zennolab-mcp-server-<version>.tgz
+npm install -g zennobrowser-mcp-server-<version>.tgz
 ```
 
 **3. Point your MCP client at the global binary** (same config as the global install):
@@ -49,7 +49,7 @@ npm install -g zennolab-mcp-server-<version>.tgz
 {
   "mcpServers": {
     "zennobrowser": {
-      "command": "zennolab-mcp-server",
+      "command": "zennobrowser-mcp-server",
       "env": {
         "ZB_API_TOKEN": "your-token-here"
       }
@@ -67,7 +67,7 @@ Restart the MCP client after each reinstall to pick up changes.
   "mcpServers": {
     "zennobrowser": {
       "command": "npx",
-      "args": ["-y", "/absolute/path/to/zennolab-mcp-server-<version>.tgz"],
+      "args": ["-y", "/absolute/path/to/zennobrowser-mcp-server-<version>.tgz"],
       "env": {
         "ZB_API_TOKEN": "your-token-here"
       }
@@ -88,7 +88,7 @@ No pack or install step needed — just build and the client picks up changes on
     "zennobrowser": {
       "command": "npm",
       "args": ["run", "start"],
-      "cwd": "/absolute/path/to/zennolab-mcp-server",
+      "cwd": "/absolute/path/to/zennobrowser-mcp-server",
       "env": {
         "ZB_API_TOKEN": "your-token-here"
       }

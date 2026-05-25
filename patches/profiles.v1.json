@@ -310,5 +310,17 @@
         ]
       }
     }
+  },
+  "components": {
+    "schemas": {
+      "Profile": {
+        "properties": {
+          "proxy": { 
+            "nullable": true, 
+            "description": "Proxy associated with the profile" 
+          }
+        }
+      }
+    }
   }
 }

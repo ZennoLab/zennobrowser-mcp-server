@@ -12,5 +12,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tools for profiles, profile folders, proxies, proxy folders, threads, browser instances, presets, extensions, and product info
 - Patch system for overriding OpenAPI specs via local JSON files in `patches/`
 - Support for Claude Desktop, Cursor, and VS Code MCP clients
-- `npx` and global install support via `zennolab-mcp-server` binary
+- `npx` and global install support via `zennobrowser-mcp-server` binary
 - MIT license
