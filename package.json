@@ -1,0 +1,37 @@
+{
+  "name": "zennobrowser-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for ZennoBrowser Public API",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "zennobrowser",
+    "zennolab",
+    "zennobrowser-dynamic-mcp-server"
+  ],
+  "main": "dist/index.js",
+  "bin": {
+    "zennobrowser-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "patches"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
+  }
+}

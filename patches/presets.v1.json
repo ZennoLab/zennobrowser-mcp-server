@@ -1,0 +1,92 @@
+{
+  "paths": {
+    "/v1/presets": {
+      "get": {
+        "operationId": "get_presets",
+        "description": "Retrieves presets accessible to the current user."
+      }
+    },
+    "/v1/presets/create": {
+      "post": {
+        "operationId": "create_preset",
+        "description": "Creates a new preset. Presets are used to group extensions, bookmarks, manage them together and assign them to profiles. All presets are cloud-based.",
+        "parameters": [
+          {
+            "name": "iconName",
+            "description": "Preset icon name. Example: \"like\", \"dislike\", \"star\", \"ai\", etc."
+          },
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
+        ]
+      }
+    },
+    "/v1/presets/{presetId}": {
+      "delete": {
+        "operationId": "delete_preset",
+        "description": "Deletes a preset."
+      }
+    },
+    "/v1/presets/extensions": {
+      "get": {
+        "operationId": "get_extensions",
+        "description": "Retrieves extensions accessible to the current user.",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          },
+          {
+            "name": "start",
+            "description": "Zero based start index for pagination."
+          },
+          {
+            "name": "total",
+            "description": "Maximum number of results to return."
+          }
+        ]
+      }
+    },
+    "/v1/presets/{presetId}/extensions/create_from_web": {
+      "post": {
+        "operationId": "create_extension_from_web",
+        "description": "Adds a web extension to the specified preset.",
+        "parameters": [
+          {
+            "name": "url",
+            "description": "Web extension URL. For example, the Chrome web store URL of the extension."
+          }
+        ]
+      }
+    },
+    "/v1/presets/{presetId}/extensions/create_from_file": {
+      "post": {
+        "operationId": "create_extension_from_file",
+        "description": "Adds a file extension to the specified preset.",
+        "parameters": [
+          {
+            "name": "filePath",
+            "description": "Path to the extension file. For example, \"/path/to/extension.crx\"."
+          },
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
+        ]
+      }
+    },
+    "/v1/presets/{presetId}/extensions/{extensionId}": {
+      "delete": {
+        "operationId": "delete_extension",
+        "description": "Deletes an extension.",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "paths": {
+    "/v1/proxies": {
+      "get": {
+        "operationId": "get_proxies",
+        "parameters": [
+          {
+            "name": "start",
+            "description": "Zero based start index for pagination."
+          },
+          {
+            "name": "total",
+            "description": "Maximum number of results to return, page size."
+          },
+          {
+            "name": "name",
+            "description": "Optional name for filtering proxies. Pass empty string to ignore this filter."
+          },
+          {
+            "name": "sorting",
+            "description": "Optional sorting string to determine the order of the returned proxies. Pass an empty string for default sorting. Sorting string format: \"propertyName ASC\" for ascending order or \"propertyName DESC\" for descending order. For example, \"name ASC\" or \"createdAt DESC\"."
+          },
+          {
+            "name": "proxyUri",
+            "description": "Optional proxy Uri address to filter proxies by. Pass empty string to ignore this filter. Proxy uri is normalized before filtering."
+          }
+        ]
+      }
+    },
+    "/v1/proxies/create": {
+      "post": {
+        "operationId": "create_proxy",
+        "parameters": [
+          {
+            "name": "folderId",
+            "description": "Identifier of the folder to associate with the proxy (optional). Defaults to null. When null, the proxy will be associated with default local folder."
+          }
+        ]
+      }
+    },
+    "/v1/proxies/create_bulk": {
+      "post": {
+        "operationId": "bulk_create_proxy"
+      }
+    },
+    "/v1/proxies/{proxyId}": {
+      "put": {
+        "operationId": "update_proxy",
+        "parameters": [
+          {
+            "name": "folderId",
+            "description": "New folder for the proxy. Set to null to leave the current value unchanged."
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "delete_proxy"
+      }
+    },
+    "/v1/proxies/delete_bulk": {
+      "delete": {
+        "operationId": "bulk_delete_proxy"
+      }
+    },
+    "/v1/proxies/{proxyId}/change_ip": {
+      "post": {
+        "operationId": "change_mobile_proxy_ip",
+        "description": "This endpoint triggers an IP change for the specified mobile proxy. The proxy must have a valid IP change URL configured.",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
+        ]
+      }
+    },
+    "/v1/proxy_folders": {
+      "get": {
+        "operationId": "get_proxy_folders",
+        "parameters": [
+          {
+            "name": "start",
+            "description": "Zero based start index for pagination."
+          },
+          {
+            "name": "total",
+            "description": "Maximum number of results to return, page size."
+          },
+          {
+            "name": "sorting",
+            "description": "Result sorting condition (optional). Sorting string format: \"propertyName ASC\" for ascending order or \"propertyName DESC\" for descending order. For example, \"name ASC\" or \"createdAt DESC\"."
+          }
+        ]
+      },
+      "post": {
+        "operationId": "create_proxy_folder",
+        "description": "This method creates a new proxy folder. The caller must ensure that the specified workspace ID and location are valid. Proxy folder is container for proxies and is used for better organization. Each folder has a unique identifier that is returned upon creation and can be used for subsequent operations on the folder, such as updating or deleting.",
+        "parameters": [
+          {
+            "name": "location",
+            "description": "Storage location (\"Local\" or \"Cloud\"). Defaults to \"Local\"."
+          }
+        ]
+      }
+    },
+    "/v1/proxy_folders/{proxyFolderId}": {
+      "put": {
+        "operationId": "update_proxy_folder"
+      },
+      "delete": {
+        "operationId": "delete_proxy_folder"
+      }
+    }
+  }
+}

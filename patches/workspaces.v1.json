@@ -1,0 +1,19 @@
+{
+  "paths": {
+    "/v1/workspaces": {
+      "get": {
+        "operationId": "get_workspaces",
+        "parameters": [
+          {
+            "name": "start",
+            "description": "Zero based start index for pagination."
+          },
+          {
+            "name": "total",
+            "description": "Maximum number of results to return, page size."
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "paths": {
+    "/v1/product/version": {
+      "get": {
+        "operationId": "get_product_version"
+      }
+    },
+    "/v1/product/browser_version": {
+      "get": {
+        "operationId": "get_browser_version"
+      }
+    },
+    "/v1/product/limits": {
+      "get": {
+        "operationId": "get_limits"
+      }
+    },
+    "/v1/product/tariff": {
+      "get": {
+        "operationId": "get_tariff"
+      }
+    }
+  }
+}

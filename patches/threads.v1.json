@@ -1,0 +1,87 @@
+{
+  "paths": {
+    "/v1/threads": {
+      "get": {
+        "operationId": "get_threads",
+        "parameters": [
+          {
+            "name": "start",
+            "description": "Zero based start index for pagination."
+          },
+          {
+            "name": "total",
+            "description": "Maximum number of results to return, page size."
+          },
+          {
+            "name": "thread_token",
+            "description": "Optional thread token to filter by. Pass null to ignore this filter."
+          },
+          {
+            "name": "type",
+            "description": "Optional thread type filter. Pass null to return all types."
+          },
+          {
+            "name": "sorting",
+            "description": "Optional sorting string to determine the order of the returned threads."
+          }
+        ]
+      }
+    },
+    "/v1/threads/create": {
+      "post": {
+        "operationId": "create_thread",
+        "description": "This method runs a new execution thread in the specified workspace. Execution threads are used to start, work with a browser instance. They can be manually continued with the continue_use_thread method or stopped with the stop_thread method."
+      }
+    },
+    "/v1/threads/create_bulk": {
+      "post": {
+        "operationId": "bulk_create_thread",
+        "parameters": [
+          {
+            "name": "count",
+            "description": "Number of threads to create (required)."
+          }
+        ]
+      }
+    },
+    "/v1/threads/use/{threadToken}": {
+      "put": {
+        "operationId": "continue_use_thread",
+        "parameters": [
+          {
+            "name": "threadToken",
+            "description": "The unique token of the thread to continue (required)."
+          }
+        ]
+      }
+    },
+    "/v1/threads/use_bulk": {
+      "put": {
+        "operationId": "bulk_continue_use_thread",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
+        ]
+      }
+    },
+    "/v1/threads/{threadToken}": {
+      "delete": {
+        "operationId": "stop_thread",
+        "description": "This method can be used to stop an existing execution thread. Stopping a thread will also stop the associated browser instance, if it exists.",
+        "parameters": [
+          {
+            "name": "threadToken",
+            "description": "The unique token of the thread to stop (required)."
+          }
+        ]
+      }
+    },
+    "/v1/threads/delete_bulk": {
+      "delete": {
+        "operationId": "bulk_stop_thread"
+      }
+    }
+  }
+}

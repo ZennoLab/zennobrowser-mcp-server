@@ -1,0 +1,47 @@
+{
+  "paths": {
+    "/v1/browser_instances": {
+      "get": {
+        "operationId": "get_browser_instances"
+      }
+    },
+    "/v1/browser_instances/create": {
+      "post": {
+        "operationId": "start_browser_instance"
+      }
+    },
+    "/v1/browser_instances/create_bulk": {
+      "post": {
+        "operationId": "bulk_start_browser_instance"
+      }
+    },
+    "/v1/browser_instances/{profileId}": {
+      "delete": {
+        "operationId": "stop_browser_instance"
+      }
+    },
+    "/v1/browser_instances/delete_bulk": {
+      "delete": {
+        "operationId": "bulk_stop_browser_instance",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
+        ]
+      }
+    },
+    "/v1/browser_instances/{profileId}/set_visibility": {
+      "post": {
+        "operationId": "set_browser_instance_visibility",
+        "description": "Set browser instance window visibility (show or hide). This method works only for browser instances launched via the API with reveal or conceal options.",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
+        ]
+      }
+    }
+  }
+}
