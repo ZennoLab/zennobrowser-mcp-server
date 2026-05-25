@@ -3,14 +3,15 @@
     "/v1/workspaces": {
       "get": {
         "operationId": "get_workspaces",
-        "summary": "Retrieves the list of workspaces accessible to the current user.",
-        "description": "The operation retrieves the list of workspaces accessible to the current user. This information is required to execute most subsequent queries.",
         "parameters": [
-          { "name": "start", "description": "Zero based start index for pagination." },
-          { "name": "total", "description": "Maximum number of results to return, page size." },
-          { "name": "id", "description": "Optional workspace ID filter." },
-          { "name": "name", "description": "Optional workspace name filter." },
-          { "name": "roles", "description": "Optional roles filter." }
+          {
+            "name": "start",
+            "description": "Zero based start index for pagination."
+          },
+          {
+            "name": "total",
+            "description": "Maximum number of results to return, page size."
+          }
         ]
       }
     }

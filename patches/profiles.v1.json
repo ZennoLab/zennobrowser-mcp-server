@@ -3,310 +3,418 @@
     "/v1/profile_folders": {
       "get": {
         "operationId": "get_profile_folders",
-        "summary": "Retrieves the list of profile folders available in the specified workspace.",
-        "description": "This method retrieves a list of folders available in the specified workspace. Optionally, it is possible to limit the number of results, specify filters, or define sorting conditions. If no parameters are specified, the method returns the first page of profile folders in the default order.",
         "parameters": [
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
-          { "name": "start", "description": "Zero based start index for pagination." },
-          { "name": "total", "description": "Maximum number of folders to retrieve, page size." },
-          { "name": "id", "description": "Unique folder identifier (optional filter)." },
-          { "name": "name", "description": "Folder name (optional filter)." },
-          { "name": "sorting", "description": "Sorting condition: Id, Name, FolderType, Quantity (optional). Sorting string format: \"propertyName ASC\" for ascending order or \"propertyName DESC\" for descending order. For example, \"name ASC\" or \"createdAt DESC\"." },
-          { "name": "location", "description": "Folder location: \"Local\" or \"Cloud\". Defaults to null. When null is specified, folders of all locations will be returned." }
+          {
+            "name": "start",
+            "description": "Zero based start index for pagination."
+          },
+          {
+            "name": "total",
+            "description": "Maximum number of folders to retrieve, page size."
+          },
+          {
+            "name": "sorting",
+            "description": "Sorting condition: Id, Name, FolderType, Quantity (optional). Sorting string format: \"propertyName ASC\" for ascending order or \"propertyName DESC\" for descending order. For example, \"name ASC\" or \"createdAt DESC\"."
+          },
+          {
+            "name": "location",
+            "description": "Folder location: \"Local\" or \"Cloud\". Defaults to null. When null is specified, folders of all locations will be returned."
+          }
         ]
       },
       "post": {
         "operationId": "create_profile_folder",
-        "summary": "Creates a new profile folder in the specified workspace.",
         "description": "This method creates a profile folder. The caller must ensure that the specified workspace ID and location are valid. Profile folders are contained within workspaces and can be used to organize browser profiles. Each folder has a unique identifier, a name, a location (Local or Cloud), and a quantity representing the number of profiles it contains. Profile folders count is limited by tariff.",
         "parameters": [
-          { "name": "name", "description": "Name of the profile folder. Cannot be null or empty." },
-          { "name": "location", "description": "Folder location: \"Local\" or \"Cloud\". Defaults to \"Local\"." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
         ]
       }
     },
     "/v1/profile_folders/{profileFolderId}": {
       "put": {
         "operationId": "update_profile_folder",
-        "summary": "Updates the name of the specified profile folder.",
-        "description": "This method can be used to update the profile folder name.",
         "parameters": [
-          { "name": "profileFolderId", "description": "Unique identifier of the profile folder to update." },
-          { "name": "name", "description": "The new name for the profile folder." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
         ]
       },
       "delete": {
         "operationId": "delete_profile_folder",
-        "summary": "Deletes the specified profile folder.",
-        "description": "This method is used for deleting a profile folder. The profileFolderId value must match the existing folder in the specified workspace.",
         "parameters": [
-          { "name": "profileFolderId", "description": "Unique identifier of the profile folder to delete." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
         ]
       }
     },
     "/v1/profiles": {
       "get": {
         "operationId": "get_profiles",
-        "summary": "Retrieves accessible browser profiles with optional filters and sorting.",
-        "description": "This method retrieves a list of profiles with their attributes from the specified workspace and the folder. It is possible to optionally filter results by ID, name, tags, and sorting.",
         "parameters": [
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
-          { "name": "start", "description": "Zero based start index for pagination." },
-          { "name": "total", "description": "Maximum number of profiles to retrieve, page size." },
-          { "name": "folderId", "description": "Optional folder ID for filtering profiles. Pass null to ignore this filter." },
-          { "name": "id", "description": "Optional profile ID to filter. Pass null to ignore this filter." },
-          { "name": "name", "description": "Optional name for filtering profiles. Pass empty string to ignore this filter." },
-          { "name": "sorting", "description": "Optional sorting string to determine the order of the returned profiles. Pass an empty string for default sorting. Sorting string format: \"propertyName ASC\" for ascending order or \"propertyName DESC\" for descending order. For example, \"name ASC\" or \"createdAt DESC\"." },
-          { "name": "tags", "description": "Optional list of tags to filter profiles by. Example: '\"tag 1\" \"ta g2\"'." },
-          { "name": "tagOperator", "description": "Tag filter operator: Or returns profiles with any of the tags, And returns profiles with all tags. Default value is And." }
+          {
+            "name": "start",
+            "description": "Zero based start index for pagination."
+          },
+          {
+            "name": "total",
+            "description": "Maximum number of profiles to retrieve, page size."
+          },
+          {
+            "name": "folderId",
+            "description": "Optional folder ID for filtering profiles. Pass null to ignore this filter."
+          },
+          {
+            "name": "id",
+            "description": "Optional profile ID to filter. Pass null to ignore this filter."
+          },
+          {
+            "name": "name",
+            "description": "Optional name for filtering profiles. Pass empty string to ignore this filter."
+          },
+          {
+            "name": "sorting",
+            "description": "Optional sorting string to determine the order of the returned profiles. Pass an empty string for default sorting. Sorting string format: \"propertyName ASC\" for ascending order or \"propertyName DESC\" for descending order. For example, \"name ASC\" or \"createdAt DESC\"."
+          },
+          {
+            "name": "tags",
+            "description": "Optional list of tags to filter profiles by. Example: '\"tag 1\" \"ta g2\"'."
+          },
+          {
+            "name": "tagOperator",
+            "description": "Tag filter operator: Or returns profiles with any of the tags, And returns profiles with all tags. Default value is And."
+          }
         ]
       }
     },
     "/v1/profiles/create": {
       "post": {
         "operationId": "create_profile",
-        "summary": "Creates a new browser profile in the specified workspace and folder.",
         "description": "This method creates a new browser profile in the specified workspace and the folder. It is possible to customize various parameters such as screen size, hardware emulation, language, timezone, proxy, and others. All parameters are optional if another is not specified. Browser profile is a set of parameters for browser configuration that can be used to create browser instances with different fingerprints and settings. Each profile has a unique identifier that is returned upon creation and can be used for subsequent operations on the profile, such as updating or deleting.",
         "parameters": [
-          { "name": "name", "description": "The profile name." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
-          { "name": "folderId", "description": "Folder identifier (optional)." },
-          { "name": "tags", "description": "Profile tags separated by spaces (optional)." },
-          { "name": "notes", "description": "Additional notes for the profile." },
-          { "name": "proxyServerId", "description": "Proxy server identifier (optional)." },
-          { "name": "presetId", "description": "Optional preset identifier used to initialize the profile configuration." },
-          { "name": "screen", "description": "Screen configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the named resolution IDs: \"SVGA\" (800×600), \"WSVGA\" (1024×600), \"XGA\" (1024×768), \"HD\" (1280×720), \"WXGA\" (1280×768), \"WXGA+\" (1280×800), \"SXGA\" (1280×1024), \"WXGA HD\" (1366×768), \"WSXGA\" (1440×900), \"HD+\" (1600×900), \"UXGA\" (1600×1200), \"WSXGA+\" (1680×1050), \"FHD\" (1920×1080), \"WUXGA\" (1920×1200), \"WQHD\" (2560×1440), \"4K UHD-1\" (3840×2160), \"5K\" (5120×2880), \"8K UHD-2\" (7680×4320), and others such as \"XGA+\", \"SXGA-\", \"SXGA+\", \"1360×768\", \"1536×864\", \"QWXGA\", \"QXGA\", \"WQXGA\". Use the exact named ID string, not pixel dimensions directly." },
-          { "name": "cpu", "description": "CPU configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific core/thread strings: \"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\". Use the exact string including the slash, e.g. \"4/8\" not \"4\"." },
-          { "name": "memory", "description": "Memory configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific GB values as a string: \"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"." },
-          { "name": "language", "description": "Browser language settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the supported locale codes: \"ru\" (Russian), \"en-US\" (English US), \"de\" (German), \"fr\" (French), \"es\" (Spanish), \"en-GB\" (English UK)." },
-          { "name": "geoLocation", "description": "Geographic location settings. Allowed values: \"auto\" to use value from fingerprint, or from one to seven comma-separated numbers for coordinates (Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius). Numbers can be skipped (e.g., \"10, , 40, , 60, 70\"). Note: \"ignore\" is not supported for this field and will cause an error." },
-          { "name": "timeZone", "description": "Time zone settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or custom timezone value (e.g., Europe/Moscow)." },
-          { "name": "webGl", "description": "WebGL configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value." },
-          { "name": "webGpu", "description": "WebGPU configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "webRtc", "description": "WebRTC configuration settings. Allowed values: \"Emulate\" to use value from fingerprint, \"Real\" to use system value, or \"Hide\" to disable." },
-          { "name": "domRect", "description": "DOM Rectangle configuration settings. Allowed values: \"Ignore\" to disable or \"Noise\" to use dom rect noising." },
-          { "name": "audio", "description": "Audio configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "fonts", "description": "Font configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "battery", "description": "Battery configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "plugins", "description": "Browser plugins configuration. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "speechVoices", "description": "Speech voices configuration. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "canvas", "description": "Canvas settings. The allowed values are: \"Ignore\" to disable this feature or \"Noise\" to use noising." },
-          { "name": "mediaDevices", "description": "Media devices settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use real values or custom location values. You can specify from one to three integer numbers that represent the following values: AudioInput, AudioOutput and VideoInput. The numbers can be skipped. For example, the following values are valid: 1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5" },
-          { "name": "commandLineArguments", "description": "Custom command line arguments to pass to the browser on startup" }
+          {
+            "name": "screen",
+            "description": "Screen configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the named resolution IDs: \"SVGA\" (800×600), \"WSVGA\" (1024×600), \"XGA\" (1024×768), \"HD\" (1280×720), \"WXGA\" (1280×768), \"WXGA+\" (1280×800), \"SXGA\" (1280×1024), \"WXGA HD\" (1366×768), \"WSXGA\" (1440×900), \"HD+\" (1600×900), \"UXGA\" (1600×1200), \"WSXGA+\" (1680×1050), \"FHD\" (1920×1080), \"WUXGA\" (1920×1200), \"WQHD\" (2560×1440), \"4K UHD-1\" (3840×2160), \"5K\" (5120×2880), \"8K UHD-2\" (7680×4320), and others such as \"XGA+\", \"SXGA-\", \"SXGA+\", \"1360×768\", \"1536×864\", \"QWXGA\", \"QXGA\", \"WQXGA\". Use the exact named ID string, not pixel dimensions directly."
+          },
+          {
+            "name": "cpu",
+            "description": "CPU configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific core/thread strings: \"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\". Use the exact string including the slash, e.g. \"4/8\" not \"4\"."
+          },
+          {
+            "name": "memory",
+            "description": "Memory configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific GB values as a string: \"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"."
+          },
+          {
+            "name": "language",
+            "description": "Browser language settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the supported locale codes: \"ru\" (Russian), \"en-US\" (English US), \"de\" (German), \"fr\" (French), \"es\" (Spanish), \"en-GB\" (English UK)."
+          },
+          {
+            "name": "geoLocation",
+            "description": "Geographic location settings. Allowed values: \"auto\" to use value from fingerprint, or from one to seven comma-separated numbers for coordinates (Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius). Numbers can be skipped (e.g., \"10, , 40, , 60, 70\"). Note: \"ignore\" is not supported for this field and will cause an error."
+          },
+          {
+            "name": "canvas",
+            "description": "Canvas settings. The allowed values are: \"Ignore\" to disable this feature or \"Noise\" to use noising."
+          },
+          {
+            "name": "mediaDevices",
+            "description": "Media devices settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use real values or custom location values. You can specify from one to three integer numbers that represent the following values: AudioInput, AudioOutput and VideoInput. The numbers can be skipped. For example, the following values are valid: 1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5"
+          }
         ]
       }
     },
     "/v1/profiles/create_bulk": {
       "post": {
         "operationId": "bulk_create_profile",
-        "summary": "Creates multiple browser profiles in the specified workspace and folder.",
-        "description": "This method is used to create new multiple browser profiles in the specified workspace and the folder. Each profile can have its own configuration, including screen size, hardware emulation, language, timezone, proxy, and other parameters. All fields are optional if another is not specified.",
         "parameters": [
-          { "name": "count", "description": "Number of profiles to create (required)." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
-          { "name": "folderId", "description": "Identifier of the folder to associate with the profiles (optional)." },
-          { "name": "tags", "description": "Tags to assign to all created profiles. Example: '\"tag 1\" \"ta g2\"'." },
-          { "name": "proxyServerId", "description": "Proxy server identifier to assign (optional)." },
-          { "name": "presetId", "description": "Preset identifier to apply (optional)." },
-          { "name": "screen", "description": "Screen configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the named resolution IDs: \"SVGA\" (800×600), \"WSVGA\" (1024×600), \"XGA\" (1024×768), \"HD\" (1280×720), \"WXGA\" (1280×768), \"WXGA+\" (1280×800), \"SXGA\" (1280×1024), \"WXGA HD\" (1366×768), \"WSXGA\" (1440×900), \"HD+\" (1600×900), \"UXGA\" (1600×1200), \"WSXGA+\" (1680×1050), \"FHD\" (1920×1080), \"WUXGA\" (1920×1200), \"WQHD\" (2560×1440), \"4K UHD-1\" (3840×2160), \"5K\" (5120×2880), \"8K UHD-2\" (7680×4320), and others such as \"XGA+\", \"SXGA-\", \"SXGA+\", \"1360×768\", \"1536×864\", \"QWXGA\", \"QXGA\", \"WQXGA\". Use the exact named ID string, not pixel dimensions directly." },
-          { "name": "cpu", "description": "CPU configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific core/thread strings: \"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\". Use the exact string including the slash, e.g. \"4/8\" not \"4\"." },
-          { "name": "memory", "description": "Memory configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific GB values as a string: \"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"." },
-          { "name": "language", "description": "Browser language settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the supported locale codes: \"ru\" (Russian), \"en-US\" (English US), \"de\" (German), \"fr\" (French), \"es\" (Spanish), \"en-GB\" (English UK)." },
-          { "name": "geoLocation", "description": "Geographic location settings. Allowed values: \"auto\" to use value from fingerprint, or from one to seven comma-separated numbers for coordinates (Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius). Numbers can be skipped (e.g., \"10, , 40, , 60, 70\"). Note: \"ignore\" is not supported for this field and will cause an error." },
-          { "name": "timeZone", "description": "Time zone settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or custom timezone value (e.g., Europe/Moscow)." },
-          { "name": "webGl", "description": "WebGL configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value." },
-          { "name": "webGpu", "description": "WebGPU configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "webRtc", "description": "WebRTC configuration settings. Allowed values: \"Emulate\" to use value from fingerprint, \"Real\" to use system value, or \"Hide\" to disable." },
-          { "name": "domRect", "description": "DOM Rectangle configuration settings. Allowed values: \"Ignore\" to disable or \"Noise\" to use dom rect noising." },
-          { "name": "audio", "description": "Audio configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "fonts", "description": "Font configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "battery", "description": "Battery configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "plugins", "description": "Browser plugins configuration. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "speechVoices", "description": "Speech voices configuration. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "canvas", "description": "Canvas settings. The allowed values are: \"Ignore\" to disable this feature or \"Noise\" to use noising." },
-          { "name": "mediaDevices", "description": "Media devices settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use real values or custom location values. You can specify from one to three integer numbers that represent the following values: AudioInput, AudioOutput and VideoInput. The numbers can be skipped. For example, the following values are valid: 1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5" },
-          { "name": "commandLineArguments", "description": "Custom command line arguments to pass to the browser on startup" }
+          {
+            "name": "count",
+            "description": "Number of profiles to create (required)."
+          },
+          {
+            "name": "folderId",
+            "description": "Identifier of the folder to associate with the profiles (optional)."
+          },
+          {
+            "name": "tags",
+            "description": "Tags to assign to all created profiles. Example: '\"tag 1\" \"ta g2\"'."
+          },
+          {
+            "name": "proxyServerId",
+            "description": "Proxy server identifier to assign (optional)."
+          },
+          {
+            "name": "presetId",
+            "description": "Preset identifier to apply (optional)."
+          },
+          {
+            "name": "screen",
+            "description": "Screen configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the named resolution IDs: \"SVGA\" (800×600), \"WSVGA\" (1024×600), \"XGA\" (1024×768), \"HD\" (1280×720), \"WXGA\" (1280×768), \"WXGA+\" (1280×800), \"SXGA\" (1280×1024), \"WXGA HD\" (1366×768), \"WSXGA\" (1440×900), \"HD+\" (1600×900), \"UXGA\" (1600×1200), \"WSXGA+\" (1680×1050), \"FHD\" (1920×1080), \"WUXGA\" (1920×1200), \"WQHD\" (2560×1440), \"4K UHD-1\" (3840×2160), \"5K\" (5120×2880), \"8K UHD-2\" (7680×4320), and others such as \"XGA+\", \"SXGA-\", \"SXGA+\", \"1360×768\", \"1536×864\", \"QWXGA\", \"QXGA\", \"WQXGA\". Use the exact named ID string, not pixel dimensions directly."
+          },
+          {
+            "name": "cpu",
+            "description": "CPU configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific core/thread strings: \"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\". Use the exact string including the slash, e.g. \"4/8\" not \"4\"."
+          },
+          {
+            "name": "memory",
+            "description": "Memory configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific GB values as a string: \"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"."
+          },
+          {
+            "name": "language",
+            "description": "Browser language settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the supported locale codes: \"ru\" (Russian), \"en-US\" (English US), \"de\" (German), \"fr\" (French), \"es\" (Spanish), \"en-GB\" (English UK)."
+          },
+          {
+            "name": "geoLocation",
+            "description": "Geographic location settings. Allowed values: \"auto\" to use value from fingerprint, or from one to seven comma-separated numbers for coordinates (Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius). Numbers can be skipped (e.g., \"10, , 40, , 60, 70\"). Note: \"ignore\" is not supported for this field and will cause an error."
+          },
+          {
+            "name": "canvas",
+            "description": "Canvas settings. The allowed values are: \"Ignore\" to disable this feature or \"Noise\" to use noising."
+          },
+          {
+            "name": "mediaDevices",
+            "description": "Media devices settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use real values or custom location values. You can specify from one to three integer numbers that represent the following values: AudioInput, AudioOutput and VideoInput. The numbers can be skipped. For example, the following values are valid: 1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5"
+          }
         ]
       }
     },
     "/v1/profiles/{profileId}": {
       "put": {
         "operationId": "update_profile",
-        "summary": "Updates an existing browser profile.",
-        "description": "This method updates an existing browser profile.",
         "parameters": [
-          { "name": "profileId", "description": "Unique identifier of the edited profile (required)." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." },
-          { "name": "name", "description": "New profile name." },
-          { "name": "folderId", "description": "New folder which the profile will be moved to (optional)." },
-          { "name": "notes", "description": "New profile notes (optional)." },
-          { "name": "tags", "description": "New profile tags separated by spaces (optional)." },
-          { "name": "proxyServerId", "description": "Proxy server ID configuration. Use null to keep unchanged, empty string to clear the proxy, or provide a valid GUID to set a new proxy server" },
-          { "name": "presetId", "description": "Preset identifier to apply. Use null to keep unchanged, empty string to remove the preset, or a GUID to set a new preset." },
-          { "name": "screen", "description": "Screen configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the named resolution IDs: \"SVGA\" (800×600), \"WSVGA\" (1024×600), \"XGA\" (1024×768), \"HD\" (1280×720), \"WXGA\" (1280×768), \"WXGA+\" (1280×800), \"SXGA\" (1280×1024), \"WXGA HD\" (1366×768), \"WSXGA\" (1440×900), \"HD+\" (1600×900), \"UXGA\" (1600×1200), \"WSXGA+\" (1680×1050), \"FHD\" (1920×1080), \"WUXGA\" (1920×1200), \"WQHD\" (2560×1440), \"4K UHD-1\" (3840×2160), \"5K\" (5120×2880), \"8K UHD-2\" (7680×4320), and others such as \"XGA+\", \"SXGA-\", \"SXGA+\", \"1360×768\", \"1536×864\", \"QWXGA\", \"QXGA\", \"WQXGA\". Use the exact named ID string, not pixel dimensions directly." },
-          { "name": "cpu", "description": "CPU configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific core/thread strings: \"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\". Use the exact string including the slash, e.g. \"4/8\" not \"4\"." },
-          { "name": "memory", "description": "Memory configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific GB values as a string: \"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"." },
-          { "name": "language", "description": "Browser language settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the supported locale codes: \"ru\" (Russian), \"en-US\" (English US), \"de\" (German), \"fr\" (French), \"es\" (Spanish), \"en-GB\" (English UK)." },
-          { "name": "geoLocation", "description": "Geographic location settings. Allowed values: \"auto\" to use value from fingerprint, or from one to seven comma-separated numbers for coordinates (Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius). Numbers can be skipped (e.g., \"10, , 40, , 60, 70\"). Note: \"ignore\" is not supported for this field and will cause an error." },
-          { "name": "timeZone", "description": "Time zone settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or custom timezone value (e.g., Europe/Moscow)." },
-          { "name": "webGl", "description": "WebGL configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value." },
-          { "name": "webGpu", "description": "WebGPU configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "webRtc", "description": "WebRTC configuration settings. Allowed values: \"Emulate\" to use value from fingerprint, \"Real\" to use system value, or \"Hide\" to disable." },
-          { "name": "domRect", "description": "DOM Rectangle configuration settings. Allowed values: \"Ignore\" to disable or \"Noise\" to use dom rect noising." },
-          { "name": "audio", "description": "Audio configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "fonts", "description": "Font configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "battery", "description": "Battery configuration settings. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "plugins", "description": "Browser plugins configuration. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "speechVoices", "description": "Speech voices configuration. Allowed values: \"on\" to enable or \"off\" to disable." },
-          { "name": "canvas", "description": "Canvas settings. The allowed values are: \"Ignore\" to disable this feature or \"Noise\" to use noising." },
-          { "name": "mediaDevices", "description": "Media devices settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use real values or custom location values. You can specify from one to three integer numbers that represent the following values: AudioInput, AudioOutput and VideoInput. The numbers can be skipped. For example, the following values are valid: 1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5" },
-          { "name": "commandLineArguments", "description": "Custom command line arguments to pass to the browser on startup" }
+          {
+            "name": "screen",
+            "description": "Screen configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the named resolution IDs: \"SVGA\" (800×600), \"WSVGA\" (1024×600), \"XGA\" (1024×768), \"HD\" (1280×720), \"WXGA\" (1280×768), \"WXGA+\" (1280×800), \"SXGA\" (1280×1024), \"WXGA HD\" (1366×768), \"WSXGA\" (1440×900), \"HD+\" (1600×900), \"UXGA\" (1600×1200), \"WSXGA+\" (1680×1050), \"FHD\" (1920×1080), \"WUXGA\" (1920×1200), \"WQHD\" (2560×1440), \"4K UHD-1\" (3840×2160), \"5K\" (5120×2880), \"8K UHD-2\" (7680×4320), and others such as \"XGA+\", \"SXGA-\", \"SXGA+\", \"1360×768\", \"1536×864\", \"QWXGA\", \"QXGA\", \"WQXGA\". Use the exact named ID string, not pixel dimensions directly."
+          },
+          {
+            "name": "cpu",
+            "description": "CPU configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific core/thread strings: \"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\". Use the exact string including the slash, e.g. \"4/8\" not \"4\"."
+          },
+          {
+            "name": "memory",
+            "description": "Memory configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the specific GB values as a string: \"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"."
+          },
+          {
+            "name": "language",
+            "description": "Browser language settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or one of the supported locale codes: \"ru\" (Russian), \"en-US\" (English US), \"de\" (German), \"fr\" (French), \"es\" (Spanish), \"en-GB\" (English UK)."
+          },
+          {
+            "name": "geoLocation",
+            "description": "Geographic location settings. Allowed values: \"auto\" to use value from fingerprint, or from one to seven comma-separated numbers for coordinates (Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius). Numbers can be skipped (e.g., \"10, , 40, , 60, 70\"). Note: \"ignore\" is not supported for this field and will cause an error."
+          },
+          {
+            "name": "timeZone",
+            "description": "Time zone settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value, or custom timezone value (e.g., Europe/Moscow)."
+          },
+          {
+            "name": "webGl",
+            "description": "WebGL configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value."
+          },
+          {
+            "name": "webGpu",
+            "description": "WebGPU configuration settings. Allowed values: \"on\" to enable or \"off\" to disable."
+          },
+          {
+            "name": "webRtc",
+            "description": "WebRTC configuration settings. Allowed values: \"Emulate\" to use value from fingerprint, \"Real\" to use system value, or \"Hide\" to disable."
+          },
+          {
+            "name": "domRect",
+            "description": "DOM Rectangle configuration settings. Allowed values: \"Ignore\" to disable or \"Noise\" to use dom rect noising."
+          },
+          {
+            "name": "audio",
+            "description": "Audio configuration settings. Allowed values: \"on\" to enable or \"off\" to disable."
+          },
+          {
+            "name": "fonts",
+            "description": "Font configuration settings. Allowed values: \"on\" to enable or \"off\" to disable."
+          },
+          {
+            "name": "battery",
+            "description": "Battery configuration settings. Allowed values: \"on\" to enable or \"off\" to disable."
+          },
+          {
+            "name": "plugins",
+            "description": "Browser plugins configuration. Allowed values: \"on\" to enable or \"off\" to disable."
+          },
+          {
+            "name": "speechVoices",
+            "description": "Speech voices configuration. Allowed values: \"on\" to enable or \"off\" to disable."
+          },
+          {
+            "name": "canvas",
+            "description": "Canvas settings. The allowed values are: \"Ignore\" to disable this feature or \"Noise\" to use noising."
+          },
+          {
+            "name": "mediaDevices",
+            "description": "Media devices settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use real values or custom location values. You can specify from one to three integer numbers that represent the following values: AudioInput, AudioOutput and VideoInput. The numbers can be skipped. For example, the following values are valid: 1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5"
+          }
         ]
       },
       "delete": {
-        "operationId": "delete_profile",
-        "summary": "Deletes an existing browser profile.",
-        "description": "This method deletes an existing browser profile.",
-        "parameters": [
-          { "name": "profileId", "description": "Unique identifier of the profile to delete (required)." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
-        ]
+        "operationId": "delete_profile"
       }
     },
     "/v1/profiles/delete_bulk": {
       "delete": {
         "operationId": "bulk_delete_profile",
-        "summary": "Deletes multiple existing browser profiles.",
-        "description": "This method is used to delete several existing browser profiles at once.",
         "parameters": [
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
         ]
       }
     },
     "/v1/profiles/{profileId}/cookies/import": {
       "post": {
         "operationId": "import_cookies",
-        "summary": "Imports cookies into the specified profile.",
         "description": "This method allows importing cookies into an existing profile in JSON format. Ensure that the cookies parameter is a valid JSON value representing the cookies to be imported. Cookies will overwrite existing cookies in the profile.",
         "parameters": [
-          { "name": "profileId", "description": "The unique identifier of the profile to import cookies into." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "profileId",
+            "description": "The unique identifier of the profile to import cookies into."
+          }
         ]
       }
     },
     "/v1/profiles/{profileId}/cookies/export": {
       "post": {
         "operationId": "export_cookies",
-        "summary": "Exports cookies associated with a specified profile.",
         "description": "This method allows exporting cookies from an existing profile in JSON format. The exported cookies can be used for backup or transfer purposes.",
         "parameters": [
-          { "name": "profileId", "description": "The unique identifier of the profile to export cookies from." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "profileId",
+            "description": "The unique identifier of the profile to export cookies from."
+          }
         ]
       }
     },
     "/v1/profiles/{profileId}/cookies/copy_to": {
       "post": {
         "operationId": "copy_cookies",
-        "summary": "Copies cookies from source profile to target profile.",
         "description": "Copies cookies from source profile to target profile. Cookies in the target profile will be overwritten.",
         "parameters": [
-          { "name": "profileId", "description": "The unique identifier of the source profile to copy cookies from." },
-          { "name": "targetProfileId", "description": "The unique identifier of the target profile to copy cookies into." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "profileId",
+            "description": "The unique identifier of the source profile to copy cookies from."
+          },
+          {
+            "name": "targetProfileId",
+            "description": "The unique identifier of the target profile to copy cookies into."
+          },
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
         ]
       }
     },
     "/v1/profiles/{profileId}/get_profile": {
       "get": {
         "operationId": "get_profile",
-        "summary": "Retrieves detailed information about a specific Browser Profile",
         "description": "Retrieves detailed information about a specific Browser Profile",
         "parameters": [
-          { "name": "profileId", "description": "The unique identifier of the profile to retrieve." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "profileId",
+            "description": "The unique identifier of the profile to retrieve."
+          },
+          {
+            "name": "workspaceId",
+            "description": "Workspace identifier. -1 means the default workspace."
+          }
         ]
       }
     },
     "/v1/profiles/{profileId}/recover": {
       "post": {
         "operationId": "recover_profile",
-        "summary": "Recovers a browser profile that is in an invalid state",
         "description": "This method can be used to recover a browser profile that is in an invalid state in the specified workspace. Most common use case is to recover a profile that is crashed or corrupted due to a machine failure.",
         "parameters": [
-          { "name": "profileId", "description": "The unique identifier of the profile to recover." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "profileId",
+            "description": "The unique identifier of the profile to recover."
+          }
         ]
       }
     },
     "/v1/profiles/{profileId}/force_unlock": {
       "post": {
         "operationId": "force_unlock_profile",
-        "summary": "Forces unlock of a cloud browser profile that is currently locked by another machine",
-        "description": "This method can be used to force unlock a cloud browser profile that is currently locked by another machine in the specified workspace.",
         "parameters": [
-          { "name": "profileId", "description": "The unique identifier of the profile to force-unlock." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "profileId",
+            "description": "The unique identifier of the profile to force-unlock."
+          }
         ]
       }
     },
     "/v1/profiles/{profileId}/cleanup": {
       "post": {
         "operationId": "cleanup_profile",
-        "summary": "Cleans up browser profile cache",
-        "description": "This method can be used to clean up cached data for a browser profile in the specified workspace.",
         "parameters": [
-          { "name": "profileId", "description": "The unique identifier of the profile to clean up." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "profileId",
+            "description": "The unique identifier of the profile to clean up."
+          }
         ]
       }
     },
     "/v1/profiles/move": {
       "post": {
         "operationId": "move_profile",
-        "summary": "Moves multiple browser profiles to a target folder.",
-        "description": "This method moves one or more browser profiles to the specified target folder within the workspace.",
         "parameters": [
-          { "name": "targetFolderId", "description": "The unique identifier of the destination folder (required)." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "targetFolderId",
+            "description": "The unique identifier of the destination folder (required)."
+          }
         ]
       }
     },
     "/v1/profiles/update_preset_bulk": {
       "post": {
         "operationId": "bulk_update_profile_preset",
-        "summary": "Updates the preset for multiple browser profiles.",
-        "description": "This method updates the preset configuration for one or more browser profiles at once.",
         "parameters": [
-          { "name": "presetId", "description": "The preset identifier to assign. Pass null to remove the preset." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "presetId",
+            "description": "The preset identifier to assign. Pass null to remove the preset."
+          }
         ]
       }
     },
     "/v1/profiles/update_proxy_bulk": {
       "post": {
         "operationId": "bulk_update_profile_proxy",
-        "summary": "Updates the proxy configuration for multiple browser profiles.",
-        "description": "This method updates the proxy settings for one or more browser profiles at once. You can either set a specific proxy server or assign proxies from a container.",
         "parameters": [
-          { "name": "proxyServerId", "description": "The proxy server identifier to assign. Pass null to remove proxy or use proxiesFromContainer." },
-          { "name": "proxyContainerId", "description": "Container-based proxy assignment configuration. Pass null to use proxyServerId instead." },
-          { "name": "maxProfilesPerProxy", "description": "Maximum number of profiles to assign per proxy when using container-based assignment." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "proxyServerId",
+            "description": "The proxy server identifier to assign. Pass null to remove proxy or use proxiesFromContainer."
+          },
+          {
+            "name": "proxyContainerId",
+            "description": "Container-based proxy assignment configuration. Pass null to use proxyServerId instead."
+          },
+          {
+            "name": "maxProfilesPerProxy",
+            "description": "Maximum number of profiles to assign per proxy when using container-based assignment."
+          }
         ]
       }
     },
     "/v1/profiles/update_tags_bulk": {
       "post": {
         "operationId": "bulk_update_profile_tags",
-        "summary": "Updates tags for multiple browser profiles.",
-        "description": "This method updates the tags for one or more browser profiles at once.",
         "parameters": [
-          { "name": "tags", "description": "The new tags to assign. Pass null to retain current tags, an empty array to clear all tags, or an array of strings to replace them." },
-          { "name": "workspaceId", "description": "Workspace identifier. -1 means the default workspace." }
+          {
+            "name": "tags",
+            "description": "The new tags to assign. Pass null to retain current tags, an empty array to clear all tags, or an array of strings to replace them."
+          }
         ]
       }
     }
@@ -315,9 +423,9 @@
     "schemas": {
       "Profile": {
         "properties": {
-          "proxy": { 
-            "nullable": true, 
-            "description": "Proxy associated with the profile" 
+          "proxy": {
+            "nullable": true,
+            "description": "Proxy associated with the profile"
           }
         }
       }
