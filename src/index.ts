@@ -33,7 +33,7 @@ async function main() {
 
   const server = new McpServer({
     name: 'zennobrowser-public-api',
-    version: '1.0.0',
+    version: '1.1.0',
     description: 'MCP server exposing ZennoBrowser Public API functionalities.',
   });
 

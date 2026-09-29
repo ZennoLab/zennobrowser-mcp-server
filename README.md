@@ -1,7 +1,7 @@
 # ZennoBrowser MCP Server
 
 [![npm version](https://img.shields.io/npm/v/zennobrowser-mcp-server)](https://www.npmjs.com/package/zennobrowser-mcp-server)
-[![license](https://img.shields.io/npm/l/zennobrowser-mcp-server)](LICENSE)
+[![license](https://img.shields.io/npm/l/zennobrowser-mcp-server)](https://github.com/ZennoLab/zennobrowser-mcp-server/blob/main/LICENSE)
 [![CI](https://github.com/ZennoLab/zennobrowser-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/ZennoLab/zennobrowser-mcp-server/actions/workflows/ci.yml)
 
 MCP (Model Context Protocol) server for [ZennoBrowser](https://zennolab.com/en/products/zennobrowser/) Public API. Exposes browser automation and profile management capabilities to AI agents such as Claude Desktop, Cursor, and VS Code MCP clients.

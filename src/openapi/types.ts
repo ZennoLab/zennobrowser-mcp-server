@@ -32,15 +32,6 @@ export interface RequestBody {
   };
 }
 
-/** An OpenAPI response descriptor for a single status code. */
-export interface ResponseObject {
-  content?: {
-    'application/json'?: {
-      schema?: SchemaObject;
-    };
-  };
-}
-
 /** An OpenAPI operation (a single HTTP method on a path). */
 export interface Operation {
   operationId?: string;
@@ -48,7 +39,6 @@ export interface Operation {
   description?: string;
   parameters?: Parameter[];
   requestBody?: RequestBody;
-  responses?: Record<string, ResponseObject>;
   tags?: string[];
 }
 
