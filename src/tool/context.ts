@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Operation, Parameter, SchemaObject } from '../openapi/types';
+import type { Operation, Parameter } from '../openapi/types';
 import { schemaToZod } from './schema';
 
 /** HTTP methods supported by the MCP tool layer. */
@@ -29,7 +29,7 @@ export const BODY_KEY = 'body';
 
 /**
  * Wraps an OpenAPI operation as an MCP tool definition, exposing the tool name,
- * metadata, Zod input/output schemas, and MCP annotations derived from the HTTP method.
+ * metadata, Zod input schema, and MCP annotations derived from the HTTP method.
  */
 export class ToolContext {
   /**
@@ -94,31 +94,5 @@ export class ToolContext {
     }
 
     return shape;
-  }
-
-  /** Whether the operation declares a JSON response schema for HTTP 200. */
-  get hasOutputSchema(): boolean {
-    return this.responseSchema !== undefined;
-  }
-
-  /**
-   * Zod type for the tool's output, or `undefined` if the operation has no
-   * JSON response schema. Non-object responses are wrapped in `{ result: ... }`.
-   */
-  get outputSchema(): z.ZodTypeAny | undefined {
-    const schema = this.responseSchema;
-    if (!schema) {
-      return undefined;
-    }
-    const zodType = schemaToZod(schema);
-    if (schema.type === 'object' || schema.properties) {
-      return zodType;
-    }
-  
-    return z.object({ result: zodType });
-  }
-
-  private get responseSchema(): SchemaObject | undefined {
-    return this.operation.responses?.['200']?.content?.['application/json']?.schema;
   }
 }

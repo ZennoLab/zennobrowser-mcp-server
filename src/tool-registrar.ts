@@ -37,7 +37,6 @@ export function registerToolsFromSpecs(
             description: toolContext.description,
             annotations: toolContext.annotations,
             inputSchema: toolContext.inputSchema,
-            ...(toolContext.hasOutputSchema ? { outputSchema: toolContext.outputSchema } : {}),
           },
           async (input) => {
             try {
@@ -47,11 +46,11 @@ export function registerToolsFromSpecs(
                 return errorResponse(new Error(`HTTP ${response.status} ${response.statusText}: ${text}`));
               }
 
-              if (!toolContext.hasOutputSchema) {
+              const text = await response.text();
+              if (!text) {
                 return emptyResponse;
               }
 
-              const text = await response.text();
               const contentType = (response.headers.get('content-type') ?? '').split(';')[0].trim();
               let data: unknown;
               switch (contentType) {
@@ -65,10 +64,8 @@ export function registerToolsFromSpecs(
                 default:
                   try { data = JSON.parse(text); } catch { data = text; }
               }
-              const payload = data !== null && typeof data === 'object' && !Array.isArray(data)
-                ? data : { result: data };
-                
-              return structuredResponse(payload);
+
+              return structuredResponse(data);
             } catch (error) {
               return errorResponse(error);
             }
