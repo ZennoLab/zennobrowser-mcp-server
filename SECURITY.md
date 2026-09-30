@@ -17,4 +17,4 @@ Please include the requested information listed below (as much as you can provid
 
 ## Scope
 
-This policy covers the `zennobrowser-mcp-server` npm package. Vulnerabilities in ZennoBrowser itself should be reported directly to ZennoLab via [zennolab.com](https://zennolab.com).
+This policy covers the `@zennolab/zennobrowser-mcp-server` npm package. Vulnerabilities in ZennoBrowser itself should be reported directly to ZennoLab via [zennolab.com](https://zennolab.com).

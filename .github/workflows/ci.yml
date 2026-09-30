@@ -51,9 +51,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Trusted publishing (OIDC) needs npm >= 11.5.1, bundled with Node 24
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
@@ -64,12 +65,19 @@ jobs:
       - name: Pack for release
         run: npm pack
 
+      # Authenticates via trusted publishing (id-token: write), no NPM_TOKEN secret.
+      # Skips a version that is already on npm, so a failed job can be re-run.
       - name: Publish to npm
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "$NAME@$VERSION is already published, skipping"
+          else
+            npm publish --access public
+          fi
 
       - name: Create GitHub Release
-        run: gh release create ${{ github.ref_name }} zennobrowser-mcp-server-*.tgz --generate-notes
+        run: gh release create ${{ github.ref_name }} *.tgz --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

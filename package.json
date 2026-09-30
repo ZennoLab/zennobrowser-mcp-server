@@ -1,8 +1,12 @@
 {
-  "name": "zennobrowser-mcp-server",
+  "name": "@zennolab/zennobrowser-mcp-server",
   "version": "1.1.0",
   "description": "MCP server for ZennoBrowser Public API",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZennoLab/zennobrowser-mcp-server.git"
+  },
   "keywords": [
     "mcp",
     "modelcontextprotocol",
