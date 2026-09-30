@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-09-30
+
+### Changed
+- Release workflow: `actions/checkout` and `actions/setup-node` updated to v7 (Node 24 runtime). First release published from CI via npm trusted publishing.
+
 ## [1.1.0] - 2026-09-29
 
 ### Fixed
