@@ -34,13 +34,13 @@ When you need to test your changes end-to-end inside Claude Desktop, Cursor, or 
 ```bash
 npm run build
 npm pack
-# produces zennobrowser-mcp-server-<version>.tgz in the current directory
+# produces zennolab-zennobrowser-mcp-server-<version>.tgz in the current directory
 ```
 
 **2. Install the tarball globally:**
 
 ```bash
-npm install -g zennobrowser-mcp-server-<version>.tgz
+npm install -g zennolab-zennobrowser-mcp-server-<version>.tgz
 ```
 
 **3. Point your MCP client at the global binary** (same config as the global install):
@@ -67,7 +67,7 @@ Restart the MCP client after each reinstall to pick up changes.
   "mcpServers": {
     "zennobrowser": {
       "command": "npx",
-      "args": ["-y", "/absolute/path/to/zennobrowser-mcp-server-<version>.tgz"],
+      "args": ["-y", "/absolute/path/to/zennolab-zennobrowser-mcp-server-<version>.tgz"],
       "env": {
         "ZB_API_TOKEN": "your-token-here"
       }

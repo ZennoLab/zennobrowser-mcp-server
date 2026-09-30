@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tools whose operation declares no JSON response schema now return the response body instead of an empty result.
 
 ### Changed
+- The package is now published to npm as `@zennolab/zennobrowser-mcp-server` (scope of the ZennoLab npm organization). The unscoped `zennobrowser-mcp-server` package stays at 1.0.0 and will be deprecated. The binary name `zennobrowser-mcp-server` is unchanged.
 - Tools no longer declare `outputSchema`. Object responses are still returned as `structuredContent` plus a JSON text block; arrays, strings and IDs are returned as text only, no longer wrapped in `{ "result": ... }`.
 
 ## [1.0.0] - 2026-05-29

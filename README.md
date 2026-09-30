@@ -1,7 +1,7 @@
 # ZennoBrowser MCP Server
 
-[![npm version](https://img.shields.io/npm/v/zennobrowser-mcp-server)](https://www.npmjs.com/package/zennobrowser-mcp-server)
-[![license](https://img.shields.io/npm/l/zennobrowser-mcp-server)](https://github.com/ZennoLab/zennobrowser-mcp-server/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@zennolab/zennobrowser-mcp-server)](https://www.npmjs.com/package/@zennolab/zennobrowser-mcp-server)
+[![license](https://img.shields.io/npm/l/@zennolab/zennobrowser-mcp-server)](https://github.com/ZennoLab/zennobrowser-mcp-server/blob/main/LICENSE)
 [![CI](https://github.com/ZennoLab/zennobrowser-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/ZennoLab/zennobrowser-mcp-server/actions/workflows/ci.yml)
 
 MCP (Model Context Protocol) server for [ZennoBrowser](https://zennolab.com/en/products/zennobrowser/) Public API. Exposes browser automation and profile management capabilities to AI agents such as Claude Desktop, Cursor, and VS Code MCP clients.
@@ -14,6 +14,8 @@ MCP (Model Context Protocol) server for [ZennoBrowser](https://zennolab.com/en/p
 
 ## Installation
 
+> The package is published as `@zennolab/zennobrowser-mcp-server`. Versions up to 1.0.0 were published as the unscoped `zennobrowser-mcp-server`, which no longer receives updates — replace it with `@zennolab/zennobrowser-mcp-server` in your MCP client config.
+
 ### npx (no install required)
 
 **Claude Desktop** — edit `claude_desktop_config.json`:
@@ -23,7 +25,7 @@ MCP (Model Context Protocol) server for [ZennoBrowser](https://zennolab.com/en/p
   "mcpServers": {
     "zennobrowser": {
       "command": "npx",
-      "args": ["-y", "zennobrowser-mcp-server@latest"],
+      "args": ["-y", "@zennolab/zennobrowser-mcp-server@latest"],
       "env": {
         "ZB_API_TOKEN": "your-api-token-here"
       }
@@ -39,7 +41,7 @@ MCP (Model Context Protocol) server for [ZennoBrowser](https://zennolab.com/en/p
   "mcpServers": {
     "zennobrowser": {
       "command": "npx",
-      "args": ["-y", "zennobrowser-mcp-server@latest"],
+      "args": ["-y", "@zennolab/zennobrowser-mcp-server@latest"],
       "env": {
         "ZB_API_TOKEN": "your-api-token-here"
       }
@@ -56,7 +58,7 @@ MCP (Model Context Protocol) server for [ZennoBrowser](https://zennolab.com/en/p
     "zennobrowser": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "zennobrowser-mcp-server@latest"],
+      "args": ["-y", "@zennolab/zennobrowser-mcp-server@latest"],
       "env": {
         "ZB_API_TOKEN": "your-api-token-here"
       }
@@ -68,10 +70,10 @@ MCP (Model Context Protocol) server for [ZennoBrowser](https://zennolab.com/en/p
 ### Global install
 
 ```bash
-npm install -g zennobrowser-mcp-server@latest
+npm install -g @zennolab/zennobrowser-mcp-server@latest
 ```
 
-Then use `zennobrowser-mcp-server` as the command instead of `npx ... zennobrowser-mcp-server`:
+Then use `zennobrowser-mcp-server` as the command instead of `npx ... @zennolab/zennobrowser-mcp-server`:
 
 ```json
 {
@@ -214,4 +216,4 @@ ZennoBrowser is not running or the Public API is not working. If the API runs on
 Your API token is invalid or expired. Generate a new token in personal account on [ZennoLab](https://zennolab.com/).
 
 **`npx` downloads the package every time**
-Install globally with `npm install -g zennobrowser-mcp-server@latest` to avoid re-downloading on each start.
+Install globally with `npm install -g @zennolab/zennobrowser-mcp-server@latest` to avoid re-downloading on each start.
