@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.ZennoLab/zennobrowser",
+  "title": "ZennoBrowser MCP Server",
+  "description": "MCP server for ZennoBrowser antidetect browser: manage browser profiles from AI agents",
+  "repository": {
+    "url": "https://github.com/ZennoLab/zennobrowser-mcp-server",
+    "source": "github"
+  },
+  "websiteUrl": "https://zennolab.com/en/products/zennobrowser/",
+  "version": "1.1.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@zennolab/zennobrowser-mcp-server",
+      "version": "1.1.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "ZB_API_TOKEN",
+          "description": "Authentication token for the ZennoBrowser Public API",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "ZB_API_BASE_URL",
+          "description": "Base URL of the ZennoBrowser Public API",
+          "default": "http://localhost:8160"
+        }
+      ]
+    }
+  ]
+}
