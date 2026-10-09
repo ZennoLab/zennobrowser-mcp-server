@@ -1,10 +1,37 @@
-# ZennoBrowser MCP Server
+# ZennoBrowser MCP Server — Antidetect Browser Automation for AI Agents
+
+<div align="center">
+
+**Control the [ZennoBrowser](https://zennolab.com/en/products/zennobrowser/) antidetect browser from AI agents.**
+Manage browser profiles, proxies, cookies, threads and browser instances from Claude Desktop, Cursor and VS Code through the Model Context Protocol (MCP).
 
 [![npm version](https://img.shields.io/npm/v/@zennolab/zennobrowser-mcp-server)](https://www.npmjs.com/package/@zennolab/zennobrowser-mcp-server)
 [![license](https://img.shields.io/npm/l/@zennolab/zennobrowser-mcp-server)](https://github.com/ZennoLab/zennobrowser-mcp-server/blob/main/LICENSE)
 [![CI](https://github.com/ZennoLab/zennobrowser-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/ZennoLab/zennobrowser-mcp-server/actions/workflows/ci.yml)
+![MCP compatible](https://img.shields.io/badge/MCP-compatible-blue)
+![Node.js 20+](https://img.shields.io/badge/Node.js-20%2B-339933?logo=node.js&logoColor=white)
+
+[Quick start](#quick-start) · [Installation](#installation) · [Tools](#tools) · [Example prompts](#example-prompts) · [Troubleshooting](#troubleshooting)
+
+</div>
 
 MCP (Model Context Protocol) server for [ZennoBrowser](https://zennolab.com/en/products/zennobrowser/) Public API. Exposes browser automation and profile management capabilities to AI agents such as Claude Desktop, Cursor, and VS Code MCP clients.
+
+## Why ZennoBrowser MCP Server
+
+- **Full Public API coverage.** 57 tools for workspaces, profiles, folders, proxies, threads, browser instances, presets, extensions and product info.
+- **Built for scale.** Bulk tools create, update, start and stop many profiles, proxies, threads and browser instances in one call.
+- **Cookies and fingerprints.** Import, export and copy cookies between profiles, and read full fingerprint details of any profile.
+- **Works with your AI client.** Runs as a local stdio server in Claude Desktop, Cursor and VS Code.
+- **Free to start.** ZennoBrowser is available for Windows. Its START plan includes unlimited local profiles and 2 simultaneous browsers.
+
+## Quick start
+
+1. Start ZennoBrowser on your computer and get an API token in your personal account on [ZennoLab](https://zennolab.com/).
+2. Add the server to your MCP client using one of the configurations in [Installation](#installation).
+3. Ask your agent, for example: *"Create a new profile named "Test Profile", then start a browser instance for it."*
+
+> Tools such as `delete_profile`, `bulk_delete_profile` and `delete_proxy` cannot be undone. Review the agent's actions before approving destructive calls.
 
 ## Requirements
 
@@ -217,3 +244,14 @@ Your API token is invalid or expired. Generate a new token in personal account o
 
 **`npx` downloads the package every time**
 Install globally with `npm install -g @zennolab/zennobrowser-mcp-server@latest` to avoid re-downloading on each start.
+
+## Related
+
+- [ZennoBrowser](https://zennolab.com/en/products/zennobrowser/) — the antidetect browser this server controls
+- [ZennoLab documentation](https://docs.zennolab.com/zennobrowser/introduction/getting_started) — product guides (in Russian)
+- [ZennoBrowser community forum](https://zenno.club/discussion/forums/zennobrowser.340/) — questions, bug reports and feature requests
+- [zennoposter-mcp](https://github.com/ZennoLab/zennoposter-mcp) — MCP servers for ZennoPoster and ZennoDroid
+
+## License
+
+[MIT](https://github.com/ZennoLab/zennobrowser-mcp-server/blob/main/LICENSE)
