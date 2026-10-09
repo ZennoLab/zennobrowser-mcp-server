@@ -1,18 +1,36 @@
 {
   "name": "@zennolab/zennobrowser-mcp-server",
-  "version": "1.1.1",
-  "description": "MCP server for ZennoBrowser Public API",
+  "version": "1.1.2",
+  "mcpName": "io.github.ZennoLab/zennobrowser",
+  "description": "MCP server for ZennoBrowser antidetect browser: manage browser profiles, proxies, cookies, threads and browser instances through the Public API from AI agents",
   "license": "MIT",
+  "homepage": "https://zennolab.com/en/products/zennobrowser/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ZennoLab/zennobrowser-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ZennoLab/zennobrowser-mcp-server/issues"
   },
   "keywords": [
     "mcp",
     "modelcontextprotocol",
     "zennobrowser",
     "zennolab",
-    "zennobrowser-dynamic-mcp-server"
+    "zennobrowser-dynamic-mcp-server",
+    "mcp-server",
+    "model-context-protocol",
+    "antidetect-browser",
+    "anti-detect-browser",
+    "browser-automation",
+    "browser-fingerprint",
+    "multi-accounting",
+    "ai-agents",
+    "profile-management",
+    "proxy-management",
+    "cookie-management",
+    "claude-desktop",
+    "cursor"
   ],
   "main": "dist/index.js",
   "bin": {
