@@ -1,0 +1,192 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ZennoLab Platfrom 8 Workspaces API Documentation",
+    "description": "A comprehensive set of instructions and recommendations to help you successfully use our automatic ZennoBrowser product and get the most out of its features.",
+    "termsOfService": "https://zennolab.com/en/terms-of-service/",
+    "contact": {
+      "name": "Contacts",
+      "url": "https://zennolab.com/en/contacts/"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8160/"
+    }
+  ],
+  "paths": {
+    "/v1/workspaces": {
+      "get": {
+        "tags": [
+          "Workspaces"
+        ],
+        "summary": "Retrieves the list of workspaces accessible to the current user.",
+        "description": "The operation retrieves the list of workspaces accessible to the current user. This information is required to execute most subsequent queries.",
+        "operationId": "Get workspaces list",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Start index for pagination.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "description": "Maximum number of results to return.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Optional workspace ID filter.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Optional workspace name filter.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "roles",
+            "in": "query",
+            "description": "Optional roles filter.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Workspace": {
+        "type": "object",
+        "properties": {
+          "workspaceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "enum": [
+              "Owner",
+              "Moderator",
+              "Member"
+            ],
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkspaceList": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Workspace"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiToken": {
+        "type": "apiKey",
+        "description": "API Token for authentication. Use the `Api-Token` header to pass your API token. Example: `Api-Token: your_api_token_here`",
+        "name": "Api-Token",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiToken": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Workspaces",
+      "description": "Workspaces Management API"
+    }
+  ]
+}

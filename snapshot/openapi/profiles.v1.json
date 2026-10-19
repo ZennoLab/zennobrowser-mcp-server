@@ -1,0 +1,2949 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ZennoLab Platfrom 8 Profiles API Documentation",
+    "description": "A comprehensive set of instructions and recommendations to help you successfully use our automatic ZennoBrowser product and get the most out of its features.",
+    "termsOfService": "https://zennolab.com/en/terms-of-service/",
+    "contact": {
+      "name": "Contacts",
+      "url": "https://zennolab.com/en/contacts/"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8160/"
+    }
+  ],
+  "paths": {
+    "/v1/profile_folders": {
+      "get": {
+        "tags": [
+          "ProfileFolders"
+        ],
+        "summary": "Retrieves the list of profile folders available in the specified workspace.",
+        "description": "This method retrieves a list of folders available in the specified workspace. Optionally, it is possible to limit the number of results, specify filters, or define sorting conditions. If no parameters are specified, the method returns the first page of profile folders in the default order.",
+        "operationId": "Get profile folders list",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Index of the first folder (zero-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "description": "Maximum number of folders to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Unique folder identifier (optional filter).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Folder name (optional filter).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "sorting",
+            "in": "query",
+            "description": "Sorting condition: Id, Name, FolderType, Quantity (optional).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Folder location: \"Local\" or \"Cloud\". Defaults to null.",
+            "schema": {
+              "enum": [
+                "Local",
+                "Cloud"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileFolderList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileFolderList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileFolderList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProfileFolders"
+        ],
+        "summary": "Creates a new profile folder in the specified workspace.",
+        "description": "This method creates a profile folder. The caller must ensure that the specified workspace ID and location are valid.",
+        "operationId": "Create profile folder",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the profile folder. Cannot be null or empty.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "ID of the workspace where the profile folder will be created. Defaults to -1 if not specified.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Folder location: \"Local\" or \"Cloud\". Defaults to \"Local\".",
+            "schema": {
+              "enum": [
+                "Local",
+                "Cloud"
+              ],
+              "type": "string",
+              "default": "Local"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profile_folders/{profileFolderId}": {
+      "put": {
+        "tags": [
+          "ProfileFolders"
+        ],
+        "summary": "Updates the name of the specified profile folder.",
+        "description": "This method can be used to update the profile folder name.",
+        "operationId": "Update profile folder",
+        "parameters": [
+          {
+            "name": "profileFolderId",
+            "in": "path",
+            "description": "Unique identifier of the profile folder to update.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The new name for the profile folder.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "The identifier of the workspace associated with the profile folder. Defaults to -1 if not specified.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProfileFolders"
+        ],
+        "summary": "Deletes the specified profile folder.",
+        "description": "This method is used for deleting a profile folder. The profileFolderId value must match the existing folder in the specified workspace.",
+        "operationId": "Delete profile folder",
+        "parameters": [
+          {
+            "name": "profileFolderId",
+            "in": "path",
+            "description": "Unique identifier of the profile folder to delete.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "The identifier of the workspace containing the profile folder. Defaults to -1 if not specified.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profile_folders/{profileFolderId}/cascade": {
+      "delete": {
+        "tags": [
+          "ProfileFolders"
+        ],
+        "summary": "Deletes the specified profile folder together with all its profiles.",
+        "description": "This method deletes a profile folder and all profiles it contains. The profileFolderId value must match the existing folder in the specified workspace.",
+        "operationId": "Delete profile folder with contents",
+        "parameters": [
+          {
+            "name": "profileFolderId",
+            "in": "path",
+            "description": "Unique identifier of the profile folder to delete.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "The identifier of the workspace containing the profile folder. Defaults to -1 if not specified.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles": {
+      "get": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Retrieves accessible browser profiles with optional filters and sorting.",
+        "description": "This method retrieves a list of profiles with their attributes from the specified workspace and the folder. It is possible to optionally filter results by ID, name, tags, and sorting.",
+        "operationId": "Get profiles list",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Zero-based index of the first profile to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "description": "Maximum number of results to return.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "Folder identifier for filtering (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Profile identifier for filtering (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Profile name for filtering (optional).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Tags for filtering (optional). Multiple tags can be separated by spaces.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "tagOperator",
+            "in": "query",
+            "description": "Specifies the logical operator for tag filtering: \"or\" returns profiles with at least one matching tag, \"and\" returns profiles with all specified tags. Defaults to \"or\".",
+            "schema": {
+              "enum": [
+                "Or",
+                "And"
+              ],
+              "type": "string",
+              "default": "And"
+            }
+          },
+          {
+            "name": "sorting",
+            "in": "query",
+            "description": "Sorting parameters (optional). Id, ContainerId, Name, CreationTime, User.Sex, User.Name, User.Surname, User.Age, User.Country, OperationSystem.Name, OperationSystem.Version, Brand.Name, Brand.Version, Proxy, Proxy.Name, ProfileState.DisplayStatus, ProfileState.Description, Status, OperationalState.OperationStatus, OperationalState.CanChangeOperationStatus, UsedTime, LastStartTime, LastErrorMessage, Tags, Tags.Id, Notes.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/create": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Creates a new browser profile in the specified workspace and folder.",
+        "description": "This method creates a new browser profile in the specified workspace and the folder. It is possible to customize various parameters such as screen size, hardware emulation, language, timezone, proxy, and others. All parameters are optional if another is not specified.",
+        "operationId": "Create profile",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The profile name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "Folder identifier (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "screen",
+            "in": "query",
+            "description": "Screen configuration settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or \"width x height\" to set custom screen resolution (auto, ignore or manual screen resolution entry, such as SVGA, WSVGA, HD+, etc. The complete list of manually configurable resolutions is provided below) \"SVGA\" = 800×600; \"0.69M3\" = 960×720; \"0.59M9\" = 1024×576; \"WSVGA\" = 1024×600; \"0.66MA\" = 1024×640; \"XGA\" = 1024×768; \"1152×648\" = 1152×648; \"XGA+\" = 1152×864; \"HD\" = 1280×720; \"WXGA\" = 1280×768; \"WXGA+\" = 1280×800; \"SXGA-\" = 1280×960; \"SXGA\" = 1280×1024; \"1360×768\" = 1360×768; \"WXGA HD\" = 1366×768; \"SXGA+\" = 1400×1050; \"WSXGA\" = 1440×900; \"1.56M3\" = 1440×1080; \"1536×864\" = 1536×864; \"HD+\" = 1600×900; \"UXGA\" = 1600×1200; \"WSXGA+\" = 1680×1050; \"1832×1392\" = 1832×1392; \"FHD\" = 1920×1080; \"WUXGA\" = 1920×1200; \"2.76M3\" = 1920×1440; \"QWXGA\" = 2048×1152; \"QXGA\" = 2048×1536; \"3.32MA\" = 2304×1440; \"WQHD\" = 2560×1440; \"WQXGA\" = 2560×1600; \"QSXGA\" = 2560×2048; \"5.18MA\" = 2880×1800; \"4K UHD-1\" = 3840×2160; \"9.44M9\" = 4096×2304; \"5K\" = 5120×2880; \"8K UHD-2\" = 7680×4320",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "cpu",
+            "in": "query",
+            "description": "CPU configuration settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or integer number to set custom processor core count (auto, ignore, or number of cores (\"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\"))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "memory",
+            "in": "query",
+            "description": "Memory configuration settings. Allowed values: \"auto\" — use the value from the fingerprint, \"ignore\" — use the system value, or an integer to specify a custom memory size (auto, ignore, or memory size (\"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Browser language settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or language locale value (auto, ignore, or locale: Russian - ru English (United States) - en-US German - de French - fr Spanish - es English (United Kingdom) - en-GB)",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "geoLocation",
+            "in": "query",
+            "description": "Geographic location settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value. It is also possible to specify from one to seven floating point numbers that represent the following geo coordinates: Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius. Some coordinates can be skipped. For example, the following value sequence is valid: 10, , 40, , 60, 70 - means Latitude = 10, Longitude = random, Altitude = 40, Accuracy = random, AltitudeAccuracy = 60, Heading = 70, Speed = random, Radius = random (auto, ignore or coordinates (latitude, longitude, etc.))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "timeZone",
+            "in": "query",
+            "description": "Time zone settings. Allowed values: \"auto\" to use value from fingerprint, \"system\" to use system value, or custom timezone value (e.g., Europe/Moscow).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webGl",
+            "in": "query",
+            "description": "WebGL configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webGpu",
+            "in": "query",
+            "description": "WebGPU configuration settings. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webRtc",
+            "in": "query",
+            "description": "WebRTC configuration settings. Allowed values: \"Emulate\" to use value from fingerprint, \"Real\" to use system value, or \"Hide\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "domRect",
+            "in": "query",
+            "description": "DOM Rectangle configuration settings. Allowed values: \"Ignore\" to disable or \"Noise\" to use dom rect noising.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "audio",
+            "in": "query",
+            "description": "Audio configuration settings. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "fonts",
+            "in": "query",
+            "description": "Font configuration settings. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "battery",
+            "in": "query",
+            "description": "Battery configuration settings. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "plugins",
+            "in": "query",
+            "description": "Browser plugins configuration. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "proxyServerId",
+            "in": "query",
+            "description": "Proxy server identifier (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "speechVoices",
+            "in": "query",
+            "description": "Speech voices configuration. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "notes",
+            "in": "query",
+            "description": "Additional notes for the profile.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Profile tags separated by spaces (optional).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "canvas",
+            "in": "query",
+            "description": "Canvas settings. The allowed values are: Ignore to disable this feature or Noise to use noising.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "mediaDevices",
+            "in": "query",
+            "description": "Media devices settings.\r\n            The allowed values are: auto to use value from fingerprint, ignore to use real values or custom location values.\r\n            You can specify from one to three integer numbers that represent the following values:\r\n            AudioInput, AudioOutput and VideoInput\r\n            The numbers can be skipped.\r\n            For example, the following values are valid:\r\n            1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "commandLineArguments",
+            "in": "query",
+            "description": "Custom command line arguments to pass to the browser on startup",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "presetId",
+            "in": "query",
+            "description": "Optional preset identifier used to initialize the profile configuration.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "osVersion",
+            "in": "query",
+            "description": "OS version for fingerprint selection. Allowed values: \"win10\" or \"win11\". If empty, the server auto-detects the host OS.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/create_bulk": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Creates multiple browser profiles in the specified workspace and folder.",
+        "description": "This method is used to create new multiple browser profiles in the specified workspace and the folder. Each profile can have its own configuration, including screen size, hardware emulation, language, timezone, proxy, and other parameters. All fields are optional if another is not specified.",
+        "operationId": "Create profiles",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Number of profiles to create.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "Folder identifier (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "screen",
+            "in": "query",
+            "description": "Screen configuration settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or \"width x height\" to set custom screen resolution (auto, ignore or manual screen resolution entry, such as SVGA, WSVGA, HD+, etc. The complete list of manually configurable resolutions is provided below) \"SVGA\" = 800×600; \"0.69M3\" = 960×720; \"0.59M9\" = 1024×576; \"WSVGA\" = 1024×600; \"0.66MA\" = 1024×640; \"XGA\" = 1024×768; \"1152×648\" = 1152×648; \"XGA+\" = 1152×864; \"HD\" = 1280×720; \"WXGA\" = 1280×768; \"WXGA+\" = 1280×800; \"SXGA-\" = 1280×960; \"SXGA\" = 1280×1024; \"1360×768\" = 1360×768; \"WXGA HD\" = 1366×768; \"SXGA+\" = 1400×1050; \"WSXGA\" = 1440×900; \"1.56M3\" = 1440×1080; \"1536×864\" = 1536×864; \"HD+\" = 1600×900; \"UXGA\" = 1600×1200; \"WSXGA+\" = 1680×1050; \"1832×1392\" = 1832×1392; \"FHD\" = 1920×1080; \"WUXGA\" = 1920×1200; \"2.76M3\" = 1920×1440; \"QWXGA\" = 2048×1152; \"QXGA\" = 2048×1536; \"3.32MA\" = 2304×1440; \"WQHD\" = 2560×1440; \"WQXGA\" = 2560×1600; \"QSXGA\" = 2560×2048; \"5.18MA\" = 2880×1800; \"4K UHD-1\" = 3840×2160; \"9.44M9\" = 4096×2304; \"5K\" = 5120×2880; \"8K UHD-2\" = 7680×4320",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "cpu",
+            "in": "query",
+            "description": "CPU configuration settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or integer number to set custom processor core count (auto, ignore, or number of cores (\"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\"))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "memory",
+            "in": "query",
+            "description": "Memory configuration settings. Allowed values: \"auto\" — use the value from the fingerprint, \"ignore\" — use the system value, or an integer to specify a custom memory size (auto, ignore, or memory size (\"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Browser language settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or language locale value (auto, ignore, or locale: Russian - ru English (United States) - en-US German - de French - fr Spanish - es English (United Kingdom) - en-GB)",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "geoLocation",
+            "in": "query",
+            "description": "Geographic location settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value. It is also possible to specify from one to seven floating point numbers that represent the following geo coordinates: Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius. Some coordinates can be skipped. For example, the following value sequence is valid: 10, , 40, , 60, 70 - means Latitude = 10, Longitude = random, Altitude = 40, Accuracy = random, AltitudeAccuracy = 60, Heading = 70, Speed = random, Radius = random (auto, ignore or coordinates (latitude, longitude, etc.))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "timeZone",
+            "in": "query",
+            "description": "Time zone settings. Allowed values: \"auto\" to use value from fingerprint, \"system\" to use system value, or custom timezone value (e.g., Europe/Moscow).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webGl",
+            "in": "query",
+            "description": "WebGL configuration settings. Allowed values: \"auto\" to use value from fingerprint, \"ignore\" to use system value.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webGpu",
+            "in": "query",
+            "description": "WebGPU configuration settings. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webRtc",
+            "in": "query",
+            "description": "WebRTC configuration settings. Allowed values: \"Emulate\" to use value from fingerprint, \"Real\" to use system value, or \"Hide\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "domRect",
+            "in": "query",
+            "description": "DOM Rectangle configuration settings. Allowed values: \"Ignore\" to disable or \"Noise\" to use dom rect noising.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "audio",
+            "in": "query",
+            "description": "Audio configuration settings. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "fonts",
+            "in": "query",
+            "description": "Font configuration settings. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "battery",
+            "in": "query",
+            "description": "Battery configuration settings. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "plugins",
+            "in": "query",
+            "description": "Browser plugins configuration. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "proxyServerId",
+            "in": "query",
+            "description": "Proxy server identifier (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "speechVoices",
+            "in": "query",
+            "description": "Speech voices configuration. Allowed values: \"on\" to enable or \"off\" to disable.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Profile tags separated by spaces or commas (optional).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "canvas",
+            "in": "query",
+            "description": "Canvas settings. The allowed values are: Ignore to disable this feature or Noise to use noising.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "mediaDevices",
+            "in": "query",
+            "description": "Media devices settings.\r\n            The allowed values are: auto to use value from fingerprint, ignore to use real values or custom location values.\r\n            You can specify from one to three integer numbers that represent the following values:\r\n            AudioInput, AudioOutput and VideoInput\r\n            The numbers can be skipped.\r\n            For example, the following values are valid:\r\n            1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "commandLineArguments",
+            "in": "query",
+            "description": "Custom command line arguments to pass to the browser on startup",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "presetId",
+            "in": "query",
+            "description": "Optional preset identifier used to initialize the profile configuration.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "osVersion",
+            "in": "query",
+            "description": "OS version for fingerprint selection. Allowed values: \"win10\" or \"win11\". If empty, the server auto-detects the host OS.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/{profileId}": {
+      "put": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Updates an existing browser profile.",
+        "description": "This method updates an existing browser profile.",
+        "operationId": "Update profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "Unique identifier of the edited profile (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "New folder which the profile will be moved to (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "New profile name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "notes",
+            "in": "query",
+            "description": "New profile notes (optional).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "New profile tags separated by spaces (optional).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "screen",
+            "in": "query",
+            "description": "Screen configuration settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or \"width x height\" to set custom screen resolution (auto, ignore or manual screen resolution entry, such as SVGA, WSVGA, HD+, etc. The complete list of manually configurable resolutions is provided below) \"SVGA\" = 800×600; \"0.69M3\" = 960×720; \"0.59M9\" = 1024×576; \"WSVGA\" = 1024×600; \"0.66MA\" = 1024×640; \"XGA\" = 1024×768; \"1152×648\" = 1152×648; \"XGA+\" = 1152×864; \"HD\" = 1280×720; \"WXGA\" = 1280×768; \"WXGA+\" = 1280×800; \"SXGA-\" = 1280×960; \"SXGA\" = 1280×1024; \"1360×768\" = 1360×768; \"WXGA HD\" = 1366×768; \"SXGA+\" = 1400×1050; \"WSXGA\" = 1440×900; \"1.56M3\" = 1440×1080; \"1536×864\" = 1536×864; \"HD+\" = 1600×900; \"UXGA\" = 1600×1200; \"WSXGA+\" = 1680×1050; \"1832×1392\" = 1832×1392; \"FHD\" = 1920×1080; \"WUXGA\" = 1920×1200; \"2.76M3\" = 1920×1440; \"QWXGA\" = 2048×1152; \"QXGA\" = 2048×1536; \"3.32MA\" = 2304×1440; \"WQHD\" = 2560×1440; \"WQXGA\" = 2560×1600; \"QSXGA\" = 2560×2048; \"5.18MA\" = 2880×1800; \"4K UHD-1\" = 3840×2160; \"9.44M9\" = 4096×2304; \"5K\" = 5120×2880; \"8K UHD-2\" = 7680×4320",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "cpu",
+            "in": "query",
+            "description": "CPU configuration settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or integer number to set custom processor core count (auto, ignore, or number of cores (\"2/4\", \"4/8\", \"6/12\", \"8/16\", \"10/20\", \"12/24\", \"14/28\", \"16/32\", \"32/64\", \"64/128\"))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "memory",
+            "in": "query",
+            "description": "Memory configuration settings. Allowed values: \"auto\" — use the value from the fingerprint, \"ignore\" — use the system value, or an integer to specify a custom memory size (auto, ignore, or memory size (\"2\", \"4\", \"8\", \"16\", \"32\", \"64\", \"128\"))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Browser language settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value or language locale value (auto, ignore, or locale: Russian - ru English (United States) - en-US German - de French - fr Spanish - es English (United Kingdom) - en-GB)",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "geoLocation",
+            "in": "query",
+            "description": "Geographic location settings. The allowed values are: \"auto\" to use value from fingerprint, \"ignore\" to use system value. It is also possible to specify from one to seven floating point numbers that represent the following geo coordinates: Latitude, Longitude, Altitude, Accuracy, AltitudeAccuracy, Heading, Speed, Radius. Some coordinates can be skipped. For example, the following value sequence is valid: 10, , 40, , 60, 70 - means Latitude = 10, Longitude = random, Altitude = 40, Accuracy = random, AltitudeAccuracy = 60, Heading = 70, Speed = random, Radius = random (auto, ignore or coordinates (latitude, longitude, etc.))",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "timeZone",
+            "in": "query",
+            "description": "Time zone settings. The allowed values are: auto to use value from fingerprint, system to use system value or custom timezone value",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webGl",
+            "in": "query",
+            "description": "WebGL configuration settings. The allowed values are: auto to use value from fingerprint, ignore to use system value.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webGpu",
+            "in": "query",
+            "description": "WebGPU configuration settings. The allowed values are: on enable use this feature or off to disable this feature.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "webRtc",
+            "in": "query",
+            "description": "WebRTC configuration settings. The allowed values are: Emulate to use value from fingerprint, Real to use system value or Hide to disable this feature.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "domRect",
+            "in": "query",
+            "description": "DOM Rectangle configuration settings. The allowed values are: Ignore to disable this feature or Noise to use dom rect noising.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "audio",
+            "in": "query",
+            "description": "Audio configuration settings. The allowed values are: on enable use this feature or off to disable this feature.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "fonts",
+            "in": "query",
+            "description": "Font configuration settings. The allowed values are: on enable use this feature or off to disable this feature.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "battery",
+            "in": "query",
+            "description": "Battery configuration settings. The allowed values are: on enable use this feature or off to disable this feature.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "plugins",
+            "in": "query",
+            "description": "Browser plugins configuration. The allowed values are: on enable use this feature or off to disable this feature.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "speechVoices",
+            "in": "query",
+            "description": "Speech voices configuration. The allowed values are: on enable use this feature or off to disable this feature.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "canvas",
+            "in": "query",
+            "description": "Canvas settings. The allowed values are: Ignore to disable this feature or Noise to use noising.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "mediaDevices",
+            "in": "query",
+            "description": "Media devices settings.\r\n            The allowed values are: auto to use value from fingerprint, ignore to use real values or custom location values.\r\n            You can specify from one to three integer numbers that represent the following values:\r\n            AudioInput, AudioOutput and VideoInput\r\n            The numbers can be skipped.\r\n            For example, the following values are valid:\r\n            1,,5 - means AudioInput = 1, AudioOutput = random, VideoInput = 5",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "commandLineArguments",
+            "in": "query",
+            "description": "Custom command line arguments to pass to the browser on startup",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "proxyServerId",
+            "in": "query",
+            "description": "Proxy server ID configuration. Use null to keep unchanged, empty string to clear the proxy, or provide a valid GUID to set a new proxy server",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "presetId",
+            "in": "query",
+            "description": "Preset identifier to apply. Use null to keep unchanged, empty string to remove the preset, or a GUID to set a new preset.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Deletes an existing browser profile.",
+        "description": "This method deletes an existing browser profile.",
+        "operationId": "Delete profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "Unique identifier of the profile to delete (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/delete_bulk": {
+      "delete": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Deletes multiple existing browser profiles.",
+        "description": "This method is used to delete several existing browser profiles at once.",
+        "operationId": "Delete profiles",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace ID. Use -1 for the default workspace",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Target browser profile IDs (array of UUID).",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/{profileId}/cookies/import": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Imports cookies into the specified profile.",
+        "description": "This method allows importing cookies into an existing profile in JSON format. Ensure that the cookies parameter is a valid JSON value representing the cookies to be imported.",
+        "operationId": "Import cookies into profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "Unique identifier of the target profile for cookie import (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Cookies in JSON format to import.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/{profileId}/cookies/export": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Exports cookies associated with a specified profile.",
+        "description": "This method allows exporting cookies from an existing profile in JSON format.",
+        "operationId": "Export cookies from profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "Unique identifier of the profile from which to export cookies (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/{profileId}/cookies/copy_to": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Copies cookies from source profile to target profile.",
+        "operationId": "Copy cookies between profiles",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "The unique identifier of the profile from which to export cookies.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "targetProfileId",
+            "in": "query",
+            "description": "The unique identifier of the profile into which the cookies will be imported.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "The identifier of the workspace. Defaults to -1 if not specified.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/{profileId}/get_profile": {
+      "get": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Retrieves detailed information about a specific Browser Profile",
+        "operationId": "Get profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "The unique identifier of the profile to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "The identifier of the workspace. Defaults to -1 if not specified.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProfileResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/{profileId}/recover": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Recovers a browser profile that is in an invalid state",
+        "description": "This method can be used to recover a browser profile that is in an invalid state in the specified workspace.",
+        "operationId": "Recover profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "Unique identifier of the profile to recover (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/{profileId}/force_unlock": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Forces unlock of a cloud browser profile that is currently locked by another machine",
+        "description": "This method can be used to force unlock a cloud browser profile that is currently locked by another machine in the specified workspace.",
+        "operationId": "Force unlock profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "Unique identifier of the profile to force unlock (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/{profileId}/cleanup": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Cleans up browser profile cache",
+        "description": "This method can be used to clean up cached data for a browser profile in the specified workspace.",
+        "operationId": "Cleanup profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "Unique identifier of the profile to cleanup (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/move": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Moves multiple browser profiles to a target folder.",
+        "description": "This method moves one or more browser profiles to the specified target folder within the workspace.",
+        "operationId": "Move profiles",
+        "parameters": [
+          {
+            "name": "targetFolderId",
+            "in": "query",
+            "description": "The unique identifier of the target folder to move profiles to.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Array of profile IDs to move.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/update_preset_bulk": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Updates the preset for multiple browser profiles.",
+        "description": "This method updates the preset configuration for one or more browser profiles at once.",
+        "operationId": "Bulk update profile preset",
+        "parameters": [
+          {
+            "name": "presetId",
+            "in": "query",
+            "description": "The preset identifier to apply. Use null to remove the preset from profiles.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Array of profile IDs to update.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/update_proxy_bulk": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Updates the proxy configuration for multiple browser profiles.",
+        "description": "This method updates the proxy settings for one or more browser profiles at once. You can either set a specific proxy server or assign proxies from a container.",
+        "operationId": "Bulk update profile proxy",
+        "parameters": [
+          {
+            "name": "proxyServerId",
+            "in": "query",
+            "description": "The proxy server identifier to apply. Use null to remove the proxy from profiles.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "proxyContainerId",
+            "in": "query",
+            "description": "The proxy container identifier to assign proxies from.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "maxProfilesPerProxy",
+            "in": "query",
+            "description": "Maximum number of profiles per proxy when using proxy container.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Array of profile IDs to update.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/update_tags_bulk": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Updates tags for multiple browser profiles.",
+        "description": "This method updates the tags for one or more browser profiles at once.",
+        "operationId": "Bulk update profile tags",
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "description": "Tags to apply, separated by spaces. Use null to remove all tags.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Array of profile IDs to update.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/run_cookie_robot": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Runs cookie robot for specified browser profiles.",
+        "description": "This method starts the cookie robot for the specified browser profiles. The robot opens each profile's browser and visits the provided URLs to collect cookies.",
+        "operationId": "Run cookie robot",
+        "parameters": [
+          {
+            "name": "urls",
+            "in": "query",
+            "description": "List of URLs for the cookie robot to visit.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "shuffleUrls",
+            "in": "query",
+            "description": "Whether to shuffle the list of URLs before visiting.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "loadImages",
+            "in": "query",
+            "description": "Whether to load images while visiting pages.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "minVisitTimeSeconds",
+            "in": "query",
+            "description": "Minimum time in seconds to spend on each URL.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 5
+            }
+          },
+          {
+            "name": "maxVisitTimeSeconds",
+            "in": "query",
+            "description": "Maximum time in seconds to spend on each URL.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Array of profile IDs to run the cookie robot for.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunCookieRobotResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunCookieRobotResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunCookieRobotResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/profiles/script_run_status": {
+      "post": {
+        "tags": [
+          "Profiles"
+        ],
+        "summary": "Retrieves per-profile status of a previously started script run.",
+        "operationId": "Get script run status",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Identifier of the run to query, as returned by RunCookieRobot.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetScriptRunStatusResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetScriptRunStatusResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetScriptRunStatusResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProfileResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "folderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "proxyServerId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileTag"
+            },
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "screen": {
+            "type": "string",
+            "nullable": true
+          },
+          "cpu": {
+            "type": "string",
+            "nullable": true
+          },
+          "memory": {
+            "type": "string",
+            "nullable": true
+          },
+          "language": {
+            "type": "string",
+            "nullable": true
+          },
+          "geoLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "timeZone": {
+            "type": "string",
+            "nullable": true
+          },
+          "webGl": {
+            "type": "string",
+            "nullable": true
+          },
+          "webGpu": {
+            "type": "string",
+            "nullable": true
+          },
+          "webRtc": {
+            "type": "string",
+            "nullable": true
+          },
+          "domRect": {
+            "type": "string",
+            "nullable": true
+          },
+          "canvas": {
+            "type": "string",
+            "nullable": true
+          },
+          "mediaDevices": {
+            "type": "string",
+            "nullable": true
+          },
+          "commandLineArguments": {
+            "type": "string",
+            "nullable": true
+          },
+          "audio": {
+            "type": "string",
+            "nullable": true
+          },
+          "fonts": {
+            "type": "string",
+            "nullable": true
+          },
+          "battery": {
+            "type": "string",
+            "nullable": true
+          },
+          "plugins": {
+            "type": "string",
+            "nullable": true
+          },
+          "speechVoices": {
+            "type": "string",
+            "nullable": true
+          },
+          "presetId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetScriptRunStatusResponse": {
+        "required": [
+          "statuses"
+        ],
+        "type": "object",
+        "properties": {
+          "statuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileRunnerStatus"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "NameVersion": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "folderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "creationTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/ProfileUser"
+          },
+          "browser": {
+            "$ref": "#/components/schemas/ProfileBrowser"
+          },
+          "proxy": {
+            "$ref": "#/components/schemas/ProxyRef"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true,
+            "deprecated": true
+          },
+          "syncStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "profileState": {
+            "enum": [
+              "Stopped",
+              "Running",
+              "LockedAnotherUser",
+              "Invalid",
+              "PendingTransfer"
+            ],
+            "type": "string"
+          },
+          "location": {
+            "enum": [
+              "Local",
+              "Cloud"
+            ],
+            "type": "string"
+          },
+          "usedTimeSeconds": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "lastStartTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastErrorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileTag"
+            },
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "presetId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileBrowser": {
+        "type": "object",
+        "properties": {
+          "operationSystem": {
+            "$ref": "#/components/schemas/NameVersion"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/NameVersion"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileFolder": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "enum": [
+              "Local",
+              "Cloud"
+            ],
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileFolderList": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileFolder"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileList": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Profile"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileRunnerStatus": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "script": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "enum": [
+              "NotStarted",
+              "InProgress",
+              "Completed",
+              "Failed"
+            ],
+            "type": "string"
+          },
+          "passed": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileTag": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileUser": {
+        "type": "object",
+        "properties": {
+          "sex": {
+            "enum": [
+              "Male",
+              "Female"
+            ],
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "surname": {
+            "type": "string",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProxyRef": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RunCookieRobotResponse": {
+        "required": [
+          "runId"
+        ],
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiToken": {
+        "type": "apiKey",
+        "description": "API Token for authentication. Use the `Api-Token` header to pass your API token. Example: `Api-Token: your_api_token_here`",
+        "name": "Api-Token",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiToken": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "ProfileFolders",
+      "description": "Profile folders API"
+    },
+    {
+      "name": "Profiles",
+      "description": "Browser Profile folders API"
+    }
+  ]
+}

@@ -1,0 +1,592 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ZennoLab Platfrom 8 Execution Thread API Documentation",
+    "description": "A comprehensive set of instructions and recommendations to help you successfully use our automatic ZennoBrowser product and get the most out of its features.",
+    "termsOfService": "https://zennolab.com/en/terms-of-service/",
+    "contact": {
+      "name": "Contacts",
+      "url": "https://zennolab.com/en/contacts/"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8160/"
+    }
+  ],
+  "paths": {
+    "/v1/threads": {
+      "get": {
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Retrieves execution threads for the specified workspace with optional filters and sorting.",
+        "description": "This method retrieves the list of execution threads for the specified workspace. Threads can be filtered by token or type, limited by the number of results, and sorted using the provided parameters.",
+        "operationId": "Get execution threads list",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Starting index for pagination.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "description": "Maximum number of threads to return.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "thread_token",
+            "in": "query",
+            "description": "Filter by certain thread token (optional).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Filter by token type (Manual, BrowserInstance) (optional).",
+            "schema": {
+              "enum": [
+                "Manual",
+                "BrowserInstance"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "sorting",
+            "in": "query",
+            "description": "Sorting parameters: CreatedAt, ThreadToken, Type, WorkspaceId (optional).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThreadList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/threads/create": {
+      "post": {
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Runs a new execution thread.",
+        "description": "This method runs a new execution thread in the specified workspace.",
+        "operationId": "Create execution thread",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Thread"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Thread"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Thread"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/threads/create_bulk": {
+      "post": {
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Runs multiple execution threads.",
+        "description": "This method can be used to start execution threads in bulk for the specified workspace.",
+        "operationId": "Create execution threads",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Number of threads to run.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Thread"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Thread"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Thread"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/threads/use/{threadToken}": {
+      "put": {
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Continues work of the execution thread associated with the thread token.",
+        "description": "This method is used to continue work of the execution thread associated with the thread token.",
+        "operationId": "Contunue using execution thread",
+        "parameters": [
+          {
+            "name": "threadToken",
+            "in": "path",
+            "description": "Unique identifier of the execution thread to continue (required).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/threads/use_bulk": {
+      "put": {
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Continues work of multiple execution threads.",
+        "description": "This method is used to update the specified execution threads, allowing them to continue working. The threadTokens parameter should contain the array of valid tokens with existing workspace IDs.",
+        "operationId": "Continue using execution threads",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "The identifier of the workspace associated with the execution threads. Defaults to -1 if not specified.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Array of thread tokens representing the execution threads to update. Cannot be null or empty.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/threads/{threadToken}": {
+      "delete": {
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Stopping Execution Thread.",
+        "description": "This method can be used to stop an existing execution thread.",
+        "operationId": "Delete execution thread",
+        "parameters": [
+          {
+            "name": "threadToken",
+            "in": "path",
+            "description": "Target thread token (required).",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/threads/delete_bulk": {
+      "delete": {
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Stopping Multiple Threads.",
+        "description": "This method stops multiple execution threads.",
+        "operationId": "Delete execution threads",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Target execution thread tokens Example: [\"uuid1\", \"uuid2\"].",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Thread": {
+        "type": "object",
+        "properties": {
+          "workspaceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "threadToken": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "enum": [
+              "Manual",
+              "BrowserInstance"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ThreadList": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Thread"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiToken": {
+        "type": "apiKey",
+        "description": "API Token for authentication. Use the `Api-Token` header to pass your API token. Example: `Api-Token: your_api_token_here`",
+        "name": "Api-Token",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiToken": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Threads",
+      "description": "Execution Thread API"
+    }
+  ]
+}

@@ -1,0 +1,1181 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ZennoLab Platfrom 8 Proxies API Documentation",
+    "description": "A comprehensive set of instructions and recommendations to help you successfully use our automatic ZennoBrowser product and get the most out of its features.",
+    "termsOfService": "https://zennolab.com/en/terms-of-service/",
+    "contact": {
+      "name": "Contacts",
+      "url": "https://zennolab.com/en/contacts/"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8160/"
+    }
+  ],
+  "paths": {
+    "/v1/proxies": {
+      "get": {
+        "tags": [
+          "Proxies"
+        ],
+        "summary": "Retrieves a list of proxies with filtering, sorting, and pagination options.",
+        "description": "This method provides functionality for filtering, sorting, and paginating proxies. It can filter results by workspace ID, folder ID, proxy ID, name, and sorting criteria. If parameters are not specified, the response returns the default page of proxies in standard order.",
+        "operationId": "Get proxies list",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Starting index for the list of proxies to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "description": "Maximum number of proxies to retrieve.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "Optional folder ID for filtering proxies. Pass null to ignore this filter.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Optional proxy ID to filter. Pass null to ignore this filter.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Optional name for filtering proxies. Pass null to ignore this filter.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "sorting",
+            "in": "query",
+            "description": "Optional sorting string to determine the order of the returned proxies. Pass an empty string for default sorting.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "proxyUri",
+            "in": "query",
+            "description": "Optional proxy Uri address to filter proxies by. Pass empty string to ignore this filter.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proxies/create": {
+      "post": {
+        "tags": [
+          "Proxies"
+        ],
+        "summary": "Adds a new proxy entry using the provided configuration parameters.",
+        "description": "This method is used to add a new proxy entry using the provided configuration parameters. It returns the generated unique identifier.",
+        "operationId": "Create proxy",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the added proxy. This value cannot be null or empty.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "proxyUri",
+            "in": "query",
+            "description": "URL-address of the proxy. Must be a valid URL (e.g., http://login:pass@host:port).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "Identifier of the folder to associate with the proxy (optional). Defaults to null.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "ipChangeUrl",
+            "in": "query",
+            "description": "URL to trigger IP change for the proxy (optional). Defaults to empty.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proxies/create_bulk": {
+      "post": {
+        "tags": [
+          "Proxies"
+        ],
+        "summary": "Creates multiple proxies in a single operation and returns their unique identifiers.",
+        "description": "This method processes an array of proxy data and creates all specified proxies. Errors during creation of individual proxies are ignored.",
+        "operationId": "Create proxies",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "Optional folder ID to associate with all created proxies.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Array of proxy data containing URI, name, and optional IP change URL for each proxy.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProxyData"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProxyData"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProxyData"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proxies/{proxyId}": {
+      "put": {
+        "tags": [
+          "Proxies"
+        ],
+        "summary": "Modifies the configuration of an existing proxy server.",
+        "description": "This method modifies configuration of an existing proxy server based on specified parameters. Any parameters set to null will leave the corresponding property of the proxy unchanged.",
+        "operationId": "Update proxy",
+        "parameters": [
+          {
+            "name": "proxyId",
+            "in": "path",
+            "description": "Unique identifier of the proxy (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "folderId",
+            "in": "query",
+            "description": "New folder for the proxy. Set to empty to leave the current value unchanged.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "New name for the proxy. Set to null to retain the current name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "proxyUri",
+            "in": "query",
+            "description": "New URL for the proxy. Set to null to retain the current URL.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ipChangeUrl",
+            "in": "query",
+            "description": "New URL for IP rotation. Set to null to retain the current URL.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Proxies"
+        ],
+        "summary": "Deletes a proxy from the list by its identifier.",
+        "description": "This method deletes a proxy from the list by the specified ID. The proxyId value must match an existing proxy in the specified workspace.",
+        "operationId": "Delete proxy",
+        "parameters": [
+          {
+            "name": "proxyId",
+            "in": "path",
+            "description": "Unique identifier of the proxy to delete (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proxies/delete_bulk": {
+      "delete": {
+        "tags": [
+          "Proxies"
+        ],
+        "summary": "Deletes multiple proxies in a single operation.",
+        "description": "This method sends a bulk delete request to the API to remove the specified proxies. Ensure that the provided proxy IDs are valid and exist in the specified workspace.",
+        "operationId": "Delete proxies",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The array of UUIDs containing the proxies to be deleted. Must not be null or empty.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proxies/{proxyId}/change_ip": {
+      "post": {
+        "tags": [
+          "Proxies"
+        ],
+        "summary": "Changes the IP address of a mobile proxy by invoking the configured IP change URL.",
+        "description": "This endpoint triggers an IP change for the specified mobile proxy. \r\n            The proxy must have a valid IP change URL configured.",
+        "operationId": "Change mobile proxy IP",
+        "parameters": [
+          {
+            "name": "proxyId",
+            "in": "path",
+            "description": "The unique identifier of the proxy for which to change the IP address.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "The identifier of the workspace containing the proxy. Defaults to -1 to use default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proxy_folders": {
+      "get": {
+        "tags": [
+          "ProxyFolders"
+        ],
+        "summary": "Retrieves a list of proxy folders with filtering, sorting, and pagination options.",
+        "description": "This method is used to get the list of proxy folders. It supports filtering, sorting, and pagination in returned results. Optional query parameters can be used to refine the result set. If parameters are not specified, the method returns the first page of proxy folders in the default sorting order.",
+        "operationId": "Get proxy folders list",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Index of the first folder to return (zero-based).",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "description": "Maximum number of results to return.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "Filter by certain folder identifier (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filter by folder name (optional).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "sorting",
+            "in": "query",
+            "description": "Result sorting condition (optional).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Proxy type filter (Local or Cloud).",
+            "schema": {
+              "enum": [
+                "Local",
+                "Cloud"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyFolderList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyFolderList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyFolderList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProxyFolders"
+        ],
+        "summary": "Creates a new proxy folder.",
+        "description": "This method creates a new proxy folder. The caller must ensure that the specified workspace ID and location are valid.",
+        "operationId": "Create proxy folder",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The name of the new folder (required).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Storage location \"Local\" or \"Cloud\"). Defaults to \"Local\".",
+            "schema": {
+              "enum": [
+                "Local",
+                "Cloud"
+              ],
+              "type": "string",
+              "default": "Local"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proxy_folders/{proxyFolderId}": {
+      "put": {
+        "tags": [
+          "ProxyFolders"
+        ],
+        "summary": "Updates the name of the specified proxy folder.",
+        "description": "This method updates the name of the specified proxy folder. This is the only editable property.",
+        "operationId": "Update proxy folder",
+        "parameters": [
+          {
+            "name": "proxyFolderId",
+            "in": "path",
+            "description": "The folder identifier (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "The new folder name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProxyFolders"
+        ],
+        "summary": "Deletes the specified proxy folder.",
+        "description": "This method deletes a proxy folder. The parameter proxyFolderId must match the existing folder within the specified workspace.",
+        "operationId": "Delete proxy folder",
+        "parameters": [
+          {
+            "name": "proxyFolderId",
+            "in": "path",
+            "description": "The identifier of the proxy folder to be deleted (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proxy_folders/{proxyFolderId}/cascade": {
+      "delete": {
+        "tags": [
+          "ProxyFolders"
+        ],
+        "summary": "Deletes the specified proxy folder together with all its proxies.",
+        "description": "This method deletes a proxy folder and all proxies it contains. The parameter proxyFolderId must match the existing folder within the specified workspace.",
+        "operationId": "Delete proxy folder with contents",
+        "parameters": [
+          {
+            "name": "proxyFolderId",
+            "in": "path",
+            "description": "The identifier of the proxy folder to be deleted (required).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Proxy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "folderId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "proxyUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "checkStatus": {
+            "enum": [
+              "Unknown",
+              "Active",
+              "Error",
+              "Checking",
+              "Pending"
+            ],
+            "type": "string"
+          },
+          "checkStatusLastUpdateTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ipChangeUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "changeStatus": {
+            "enum": [
+              "Empty",
+              "Checking",
+              "Success",
+              "Error"
+            ],
+            "type": "string"
+          },
+          "ipV4": {
+            "type": "string",
+            "nullable": true
+          },
+          "ipV6": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProxyData": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "proxyUri": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "ipChangeUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProxyFolder": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "location": {
+            "enum": [
+              "Local",
+              "Cloud"
+            ],
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProxyFolderList": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProxyFolder"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProxyList": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Proxy"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiToken": {
+        "type": "apiKey",
+        "description": "API Token for authentication. Use the `Api-Token` header to pass your API token. Example: `Api-Token: your_api_token_here`",
+        "name": "Api-Token",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiToken": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Proxies",
+      "description": "Provides endpoints for managing proxies, including retrieving, creating, updating, and deleting proxy records."
+    },
+    {
+      "name": "ProxyFolders",
+      "description": "Proxy folders API"
+    }
+  ]
+}

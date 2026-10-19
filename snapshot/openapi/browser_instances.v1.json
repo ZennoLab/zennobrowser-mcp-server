@@ -1,0 +1,768 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ZennoLab Platfrom 8 Browser Instance API Documentation",
+    "description": "A comprehensive set of instructions and recommendations to help you successfully use our automatic ZennoBrowser product and get the most out of its features.",
+    "termsOfService": "https://zennolab.com/en/terms-of-service/",
+    "contact": {
+      "name": "Contacts",
+      "url": "https://zennolab.com/en/contacts/"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8160/"
+    }
+  ],
+  "paths": {
+    "/v1/browser_instances": {
+      "get": {
+        "tags": [
+          "BrowserInstances"
+        ],
+        "summary": "Retrieves the list of browser instances available for the current user with filtering and pagination options.",
+        "description": "This method returns the list of browser processes available for the current user with detailed information. Results can be filtered by profile ID or process ID, optionally sorted, and limited by the number of returned entries. Important: these actions are applied only to browser instances launched via the API.",
+        "operationId": "Get browser instances list",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Starting index for pagination.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "total",
+            "in": "query",
+            "description": "Maximum number of results to return.",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1000
+            }
+          },
+          {
+            "name": "profileId",
+            "in": "query",
+            "description": "Filter by profile ID (optional).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "processId",
+            "in": "query",
+            "description": "Filter by browser process ID (optional).",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sorting",
+            "in": "query",
+            "description": "Sorting parameters: ConnectionString, ProcessId, ProfileId (optional).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstanceList"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstanceList"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstanceList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/browser_instances/create": {
+      "post": {
+        "tags": [
+          "BrowserInstances"
+        ],
+        "summary": "Creates a new browser instance for the specified profile.",
+        "description": "This method creates the new browser instance using the specified profile with optional workspace and desktop settings.",
+        "operationId": "Create browser instance",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "query",
+            "description": "Unique identifier of the profile to associate with the browser instance (required).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "desktopName",
+            "in": "query",
+            "description": "The name of the desktop environment (optional). Defaults to empty.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "threadToken",
+            "in": "query",
+            "description": "Thread token for the browser instance. To create a new execution thread, pass an empty string (default).",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "environmentTags",
+            "in": "query",
+            "description": "Tags to configure the environment for the browser instance.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "commandLineArguments",
+            "in": "query",
+            "description": "Custom command line arguments to pass to the browser on startup",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "customFeatures",
+            "in": "query",
+            "description": "Optional JSON object of browser feature overrides. Overrides environment-read features.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/browser_instances/get_running": {
+      "post": {
+        "tags": [
+          "BrowserInstances"
+        ],
+        "summary": "Returns the running browser instance for the specified profile.",
+        "description": "Throws if no browser instance is currently running for the given profile.",
+        "operationId": "Get running browser instance",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "query",
+            "description": "Unique identifier of the profile (required).",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/browser_instances/create_bulk": {
+      "post": {
+        "tags": [
+          "BrowserInstances"
+        ],
+        "summary": "Creates multiple browser instances for the specified profiles.",
+        "description": "This method is used to create browser instances in bulk for the specified profiles. Ensure that the provided profile IDs are valid and that the specified workspace ID exists.",
+        "operationId": "Create browser instances",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          },
+          {
+            "name": "desktopName",
+            "in": "query",
+            "description": "The name of the desktop environment (optional). Defaults to empty.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "keepAlive",
+            "in": "query",
+            "description": "Indicates if the browser instances should remain active after creation. true to keep active; otherwise false. Defaults to true.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "environmentTags",
+            "in": "query",
+            "description": "Tags to configure the environment for the browser instance.",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "commandLineArguments",
+            "in": "query",
+            "description": "Custom additional command line arguments to pass to the browser on startup",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "customFeatures",
+            "in": "query",
+            "description": "Optional JSON object of browser feature overrides. Overrides environment-read features.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Array of profile UUIDs for which browser instances will be created. Each ID must correspond to an existing profile.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BrowserInstance"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BrowserInstance"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BrowserInstance"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/browser_instances/{profileId}": {
+      "delete": {
+        "tags": [
+          "BrowserInstances"
+        ],
+        "summary": "Stopping Browser Instance.",
+        "description": "This method stops the existing browser instance associated with the specified profile. This operation permanently closes the browser instance and releases all associated resources.",
+        "operationId": "Delete browser instance",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "The target browser instance ID (profileId).",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace identifier. -1 means the default workspace.",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/browser_instances/delete_bulk": {
+      "delete": {
+        "tags": [
+          "BrowserInstances"
+        ],
+        "summary": "Stopping browser instances (bulk).",
+        "description": "This method stops multiple existing browser instances associated with the specified profiles. This operation permanently closes all specified browser instances and releases their resources.",
+        "operationId": "Delete browser instances",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace ID. Use -1 for the default workspace",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The array of profile UUIDs of those browser instances which should be deleted. For example: [\"uuid1\", \"uuid2\"].",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/browser_instances/{profileId}/focus": {
+      "post": {
+        "tags": [
+          "BrowserInstances"
+        ],
+        "summary": "Bring the browser window of the specified profile to the foreground",
+        "operationId": "Focus browser instance",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "The unique identifier of the profile whose browser window should be focused.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace ID. Use -1 for the default workspace",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/browser_instances/{profileId}/set_visibility": {
+      "post": {
+        "tags": [
+          "BrowserInstances"
+        ],
+        "summary": "Set browser instance visibility",
+        "operationId": "Set browser visibility",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "description": "The unique identifier of the profile to associate with the browser instance.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "isVisible",
+            "in": "query",
+            "description": "Visibility value, true - to show, false - to hide",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "in": "query",
+            "description": "Workspace ID. Use -1 for the default workspace",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "default": -1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BrowserInstance": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "processId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "connectionString": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BrowserInstanceList": {
+        "type": "object",
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BrowserInstance"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ErrorResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiToken": {
+        "type": "apiKey",
+        "description": "API Token for authentication. Use the `Api-Token` header to pass your API token. Example: `Api-Token: your_api_token_here`",
+        "name": "Api-Token",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiToken": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "BrowserInstances",
+      "description": "Browser Instances API"
+    }
+  ]
+}
