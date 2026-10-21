@@ -122,8 +122,6 @@ Then use `zennobrowser-mcp-server` as the command instead of `npx ... @zennolab/
 | `ZB_API_TOKEN` | Yes | — | Authentication token for the ZennoBrowser Public API |
 | `ZB_API_BASE_URL` | No | `http://localhost:8160` | Base URL of the ZennoBrowser Public API |
 
-The server identifies itself to ZennoBrowser with the `x-zp-channel-name: MCP` and `x-zp-channel-version` headers on every request.
-
 ## Tools
 
 ### Workspaces

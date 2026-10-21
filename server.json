@@ -8,12 +8,12 @@
     "source": "github"
   },
   "websiteUrl": "https://zennolab.com/en/products/zennobrowser/",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@zennolab/zennobrowser-mcp-server",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "transport": {
         "type": "stdio"
       },
