@@ -1,4 +1,5 @@
 import { BODY_KEY, type ToolContext } from './tool';
+import { CLIENT_HEADERS } from './version';
 
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
@@ -25,6 +26,7 @@ export class ApiClient {
       method: toolContext.method.toUpperCase(),
       headers: {
         'Api-Token': this.token,
+        ...CLIENT_HEADERS,
         ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
       },
       body,
