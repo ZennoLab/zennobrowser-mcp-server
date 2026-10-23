@@ -3,6 +3,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { loadSpecs, type OpenAPISpec } from './openapi';
 import { registerToolsFromSpecs } from './tool-registrar';
+import { SERVER_VERSION } from './version';
 
 async function main() {
   const token = process.env.ZB_API_TOKEN;
@@ -33,7 +34,7 @@ async function main() {
 
   const server = new McpServer({
     name: 'zennobrowser-public-api',
-    version: '1.1.0',
+    version: SERVER_VERSION,
     description: 'MCP server exposing ZennoBrowser Public API functionalities.',
   });
 

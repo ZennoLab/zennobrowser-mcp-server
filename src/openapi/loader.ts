@@ -3,6 +3,7 @@ import * as path from 'path';
 import type { OpenAPISpec, SchemaObject } from './types';
 import { resolveRefs } from './resolver';
 import { applyPatch } from './patcher';
+import { CLIENT_HEADERS } from '../version';
 
 const PATCHES_DIR = path.join(__dirname, '..', '..', 'patches');
 
@@ -18,7 +19,7 @@ const PATCHES_DIR = path.join(__dirname, '..', '..', 'patches');
 export async function loadSpecs(urls: string[]): Promise<OpenAPISpec[]> {
   return Promise.all(
     urls.map(async (url) => {
-      const response = await fetch(url);
+      const response = await fetch(url, { headers: CLIENT_HEADERS });
       if (!response.ok) {
         throw new Error(`Failed to fetch OpenAPI spec from ${url}: HTTP ${response.status}`);
       }

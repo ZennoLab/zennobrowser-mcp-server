@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-10-21
+
+### Added
+- Every request to ZennoBrowser (API calls and OpenAPI spec loading) carries `x-zp-channel-name: MCP` and `x-zp-channel-version` with the server version, so ZennoBrowser shows MCP actions in the profile history as "API · MCP <version>".
+
+### Fixed
+- The MCP server reports its real package version instead of a hardcoded `1.1.0`.
+
 ## [1.1.1] - 2026-09-30
 
 ### Changed
